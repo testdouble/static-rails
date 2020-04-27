@@ -1,0 +1,2 @@
+module StaticRails
+end
