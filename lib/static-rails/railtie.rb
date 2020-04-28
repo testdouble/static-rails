@@ -14,7 +14,7 @@ module StaticRails
     # end
 
     unless Rails.env.production?
-      config.app_middleware.use Middleware
+      config.app_middleware.insert_before 0, Middleware
     end
   end
 end
