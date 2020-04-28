@@ -1,35 +1,56 @@
-require "daemon_controller"
-
 module StaticRails
   class Server
     def initialize(app, site)
       @app = app
       @site = site
-      @controller = create_daemon_controller_for(site)
     end
 
     def start
-      chdir file_path(@site.source_dir) do
-        @controller.start
+      return if started?
+      @pid = spawn_process
+      set_at_exit_hook
+      nil
+    end
+
+    def started?
+      return false unless @pid.present?
+
+      begin
+        Process.getpgid(@pid)
+        true
+      rescue Errno::ESRCH
+        false
       end
     end
 
     private
 
-    def create_daemon_controller_for(site)
-      # chdir file_path(@site.source_dir) do
-      DaemonController.new(
-        identifier: site.name,
-        start_command: site.serve_command,
-        # before_start: method(:before_start),
-        ping_command: [:tcp, site.serve_host, site.serve_port],
-        pid_file: file_path("tmp/static-rails-#{site.name}.pid"),
-        lock_file: file_path("tmp/static-rails-#{site.name}.pid.lock"),
-        log_file: "/dev/stdout",
-        # log_file: file_path("log/static-rails-#{site.name}.log"),
-        daemonize_for_me: true
-      )
-      # end
+    def spawn_process
+      options = {
+        in: "/dev/null",
+        out: "/dev/stdout",
+        err: "/dev/stderr",
+        close_others: true,
+        chdir: Rails.root.join(@site.source_dir).to_s
+      }
+
+      Rails.logger.info "=> Starting #{@site.name} static server"
+      Bundler.with_unbundled_env do
+        Process.spawn(ENV, @site.serve_command, options).tap do |pid|
+          Process.detach(pid)
+        end
+      end
+    end
+
+    def set_at_exit_hook
+      return if @at_exit_hook_set
+      at_exit do
+        return unless started?
+
+        Rails.logger.info "=> Stopping #{@site.name} static server"
+        Process.kill("INT", @pid)
+      end
+      @at_exit_hook_set = true
     end
 
     def file_path(relative_path)

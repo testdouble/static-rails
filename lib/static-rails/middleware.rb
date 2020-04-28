@@ -28,7 +28,7 @@ module StaticRails
     def start_servers_if_necessary!
       @sites.each do |site|
         server = @servers[site] ||= Server.new(@app, site)
-        server.start
+        server.start unless server.started?
       end
     end
   end
