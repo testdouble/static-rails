@@ -23,20 +23,20 @@ StaticRails.config do |config|
     #   # Whether to run the local development/test server or not
     #   start_server: !Rails.env.production?,
     #
-    #   # If start_server is true, wait to proxy requests to the server until it can connect to serve_host over TCP on serve_port
+    #   # If start_server is true, wait to proxy requests to the server until it can connect to server_host over TCP on server_port
     #   ping_server: true
     #
     #   # The command to execute when running the static app in local development/test environments
-    #   serve_command: "hugo server",
+    #   server_command: "hugo server",
     #
     #   # The host the local development/test server should be reached on
-    #   serve_host: "localhost",
+    #   server_host: "localhost",
     #
     #   # The port the local development/test server should be reached on
-    #   serve_port: "1313",
+    #   server_port: "1313",
     #
     #   # The root path on the local development/test server to which requests should be forwarded
-    #   serve_path: "/",
+    #   server_path: "/",
     #
     #   # The command to execute when building the static app for production
     #   compile_command: "hugo",

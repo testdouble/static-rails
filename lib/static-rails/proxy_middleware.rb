@@ -22,7 +22,7 @@ module StaticRails
           server.wait_until_ready
         end
 
-        @backend = URI("http://#{site.serve_host}:#{site.serve_port}")
+        @backend = URI("http://#{site.server_host}:#{site.server_port}")
 
         env["HTTP_HOST"] = @backend.host
         env["PATH_INFO"] = forwarding_path(site, request)
@@ -42,7 +42,7 @@ module StaticRails
     end
 
     def forwarding_path(site, request)
-      site.serve_path + request.path.gsub(/^#{site.url_root_path}/, "")
+      site.server_path + request.path.gsub(/^#{site.url_root_path}/, "")
     end
 
     def subdomain_match?(site, request)

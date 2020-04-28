@@ -46,7 +46,7 @@ module StaticRails
 
       Rails.logger.info "=> Starting #{@site.name} static server"
       Bundler.with_unbundled_env do
-        Process.spawn(ENV, @site.serve_command, options).tap do |pid|
+        Process.spawn(ENV, @site.server_command, options).tap do |pid|
           Process.detach(pid)
         end
       end
