@@ -1,33 +1,33 @@
 require "rack-proxy"
 
-require_relative "site"
-require_relative "server"
+require_relative "server_store"
 
 module StaticRails
-  class Middleware < Rack::Proxy
+  class ProxyMiddleware < Rack::Proxy
     def initialize(app)
       @app = app
-      @sites = nil # must be initiated later after Rails is fully initialized :-/
       @servers = {}
       super
     end
 
     def perform_request(env)
-      request = Rack::Request.new(env)
+      return @app.call(env) unless StaticRails.config.proxy_requests
 
-      initialize_sites_if_necessary!
-      start_servers_if_necessary!
+      request = Rack::Request.new(env)
+      server_store = ServerStore.instance
+      server_store.ensure_servers_are_up
 
       if (site = site_request_should_be_forwarded_to(request))
+        if site.ping_server && (server = server_store.server_for(site))
+          server.wait_until_ready
+        end
+
         @backend = URI("http://#{site.serve_host}:#{site.serve_port}")
 
         env["HTTP_HOST"] = @backend.host
-
         env["PATH_INFO"] = forwarding_path(site, request)
-
         env["HTTP_COOKIE"] = ""
         super(env)
-        # TODO if this 404s fall through to the rails app maybe
       else
         @app.call(env)
       end
@@ -35,20 +35,8 @@ module StaticRails
 
     private
 
-    def initialize_sites_if_necessary!
-      return unless @sites.nil?
-      @sites = StaticRails.sites.map { |site| Site.new(site) }
-    end
-
-    def start_servers_if_necessary!
-      @sites.each do |site|
-        server = @servers[site] ||= Server.new(@app, site)
-        server.start unless server.started?
-      end
-    end
-
     def site_request_should_be_forwarded_to(request)
-      @sites.find { |site|
+      StaticRails.config.sites.find { |site|
         subdomain_match?(site, request) && path_match?(site, request)
       }
     end

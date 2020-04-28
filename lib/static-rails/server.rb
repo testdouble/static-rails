@@ -1,8 +1,11 @@
+require_relative "waits_for_connection"
+
 module StaticRails
   class Server
-    def initialize(app, site)
-      @app = app
+    def initialize(site)
       @site = site
+      @ready = false
+      @waits_for_connection = WaitsForConnection.new
     end
 
     def start
@@ -19,8 +22,15 @@ module StaticRails
         Process.getpgid(@pid)
         true
       rescue Errno::ESRCH
+        @ready = false
         false
       end
+    end
+
+    def wait_until_ready
+      return if @ready
+      @waits_for_connection.call(@site)
+      @ready = true
     end
 
     private
@@ -31,7 +41,7 @@ module StaticRails
         out: "/dev/stdout",
         err: "/dev/stderr",
         close_others: true,
-        chdir: Rails.root.join(@site.source_dir).to_s
+        chdir: StaticRails.config.app.root.join(@site.source_dir).to_s
       }
 
       Rails.logger.info "=> Starting #{@site.name} static server"

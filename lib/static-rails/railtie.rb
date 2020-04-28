@@ -1,20 +1,27 @@
+require_relative "rack_server_check"
+require_relative "server_store"
+require_relative "proxy_middleware"
+
 module StaticRails
   class Railtie < ::Rails::Railtie
-    # initializer "staticrails.initialize" do |app|
-    #   @app = app
-    # end
+    # Note that user initializer won't have run yet, but we seem to need to
+    # register the middleware by now if it's going to properly get added to the
+    # stack. So if the user overrides this setting, the middleware will still
+    # be added but will be responsible itself for skipping each request (bummer)
+    if RackServerCheck.running? && StaticRails.config.proxy_requests
+      config.app_middleware.insert_before 0, ProxyMiddleware
+    end
 
-    # config.after_initialize do |app|
-    #   @sites = StaticRails.sites.map { |site| Site.new(site) }
-    # convert them all to value objects
-    # if command isn't running a rails server, do nothing
-    # if dev/test start server
-    # https://blog.carbonfive.com/2011/02/25/configure-your-gem-the-rails-way-with-railtie/
-    # binding.pry
-    # end
+    config.after_initialize do |app|
+      static_rails_config = StaticRails.config
+      static_rails_config.app = app
 
-    unless Rails.env.production?
-      config.app_middleware.insert_before 0, Middleware
+      if RackServerCheck.running?
+        server_store = ServerStore.instance
+        static_rails_config.sites.select(&:start_server).each do |site|
+          server_store.server_for(site).start
+        end
+      end
     end
   end
 end
