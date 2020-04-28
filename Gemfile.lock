@@ -1,7 +1,13 @@
 PATH
+  remote: ../../FooBarWidget/daemon_controller
+  specs:
+    daemon_controller (1.2.1)
+
+PATH
   remote: .
   specs:
-    rails-static-site (0.1.0)
+    static-rails (0.0.1)
+      daemon_controller
 
 GEM
   remote: https://rubygems.org/
@@ -35,10 +41,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  daemon_controller!
   minitest (~> 5.0)
-  rails-static-site!
   rake (~> 13.0)
   standard
+  static-rails!
 
 BUNDLED WITH
    2.1.4
