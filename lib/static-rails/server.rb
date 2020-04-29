@@ -55,10 +55,10 @@ module StaticRails
     def set_at_exit_hook
       return if @at_exit_hook_set
       at_exit do
-        return unless started?
-
-        Rails.logger.info "=> Stopping #{@site.name} static server"
-        Process.kill("INT", @pid)
+        if started?
+          Rails.logger.info "=> Stopping #{@site.name} static server"
+          Process.kill("INT", @pid)
+        end
       end
       @at_exit_hook_set = true
     end
