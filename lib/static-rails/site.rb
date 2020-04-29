@@ -16,6 +16,7 @@ module StaticRails
   )
 
     def initialize(
+      url_root_path: "/",
       start_server: !Rails.env.production?,
       ping_server: true,
       server_host: "localhost",
