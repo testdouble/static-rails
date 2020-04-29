@@ -42,7 +42,11 @@ module StaticRails
     end
 
     def forwarding_path(site, request)
-      site.server_path + request.path.gsub(/^#{site.url_root_path}/, "")
+      if request.path == site.url_root_path && !request.path.end_with?("/")
+        request.path + "/" # <- Necessary for getting jekyll, possibly hugo to serve the root
+      else
+        request.path
+      end
     end
 
     def subdomain_match?(site, request)
