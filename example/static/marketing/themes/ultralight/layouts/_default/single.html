@@ -1,0 +1,15 @@
+{{ define "main" }}
+  <article>
+    <h1>{{ .Title }}</h1>
+    {{ .Content }}
+      <hr>
+      <div class="aftermath">
+        {{ if .Date }}
+          <time pubdate datetime="{{ .Date.Format "2006-01-02"}}">
+            {{ .Date.Format "2006.01.02" }}
+          </time>
+        {{ end }}
+      </div>
+  </article>
+{{ end }}
+

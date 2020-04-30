@@ -1,0 +1,115 @@
+*:root
+  --content-margin: 6vw
+
+@media (min-width: $wider-display)
+  *:root
+    --content-margin: 70px
+
+html, body
+  margin: 0
+  width: 100%
+  height: 100%
+  background-color: var(--bgbg)
+  color: var(--font-color)
+
+#wrap
+  min-height: 100vh
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  align-items: center
+
+header, footer
+  display: flex
+  justify-content: center
+  align-items: center
+  width: 100%
+  min-height: 60px
+  background-color: var(--accent)
+
+#main
+  width: 83.2ex // <-- ~80 chars
+  max-width: 100%
+  background-color: var(--bg)
+
+  @media (min-width: $page-width)
+    box-shadow: 0px 6px 12px 3px var(--shadow-color)
+
+  > :first-child
+    margin: 0 var(--content-margin)
+    padding: 46px 0
+
+  @media (min-width: $page-width)
+    margin-top: 23px
+    margin-bottom: 23px
+
+  blockquote
+    margin-left: 2px
+    margin-right: 6px
+    padding-left: 16px
+    border-left: 3px solid var(--blockquote-accent)
+    color: var(--blockquote)
+
+  pre
+    padding: 6px 8px
+
+  img
+    margin: 0.5em auto
+    width: calc(100% + 2 * var(--content-margin))
+    margin-inline-start: calc(-1 * var(--content-margin))
+
+    display: block
+    height: auto
+
+    border: 1px solid var(--accent)
+    border-left: none
+    border-right: none
+
+  hr
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--accent), rgba(0, 0, 0, 0));
+
+  .aftermath
+    text-align: center
+
+time
+  font-weight: 100
+  opacity: .3
+
+nav
+  display: inline-block
+  font-size: 1.4em
+
+  ul
+    display: inline-block
+    list-style-type: none
+    margin: 0
+    padding: 0
+
+    li
+      display: inline-block
+
+      &:not(:first-child)
+        margin-left: 14px
+
+.posts-list
+  .post
+    margin-top: 44px
+
+    &:last-of-type
+      hr
+        display: none
+
+  .title
+    width: 90%
+    margin: 0 auto
+    font-size: 1.25em
+    font-weight: semibold
+
+  time
+    margin-top: 32px
+    display: block
+    text-align: center
+
+

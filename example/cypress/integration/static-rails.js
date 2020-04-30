@@ -1,0 +1,40 @@
+
+describe('rails-static stuff seems to work', () => {
+  it('accesses the 11ty site at blog.localhost/docs', () => {
+    cy.visit(`http://blog.localhost:3009/docs`)
+    cy.get('p').should('have.text', 'Hi')
+
+    cy.visit(`http://blog.localhost:3009/docs/index.html`)
+    cy.get('p').should('have.text', 'Hi')
+  })
+
+  it('accesses the hugo site at blog.localhost', () => {
+    cy.visit('http://blog.localhost:3009')
+
+    cy.get('header a')
+      .should('contain.text', 'My Blerg')
+      .should('have.attr', 'href', '/')
+
+    cy.contains('My First Post').click()
+    cy.get('article').should('contain.text', 'I am a post')
+  })
+
+  it('accesses the jekyll site at /docs', () => {
+    cy.visit('http://localhost:3009/docs')
+
+    cy.get('.post-link').click()
+    cy.get('.post-content').should('contain.text', 'find this post in your')
+  })
+
+  it('accesses the hugo site at /marketing', () => {
+    cy.visit('http://localhost:3009/marketing')
+
+    cy.get('header a')
+      .should('contain.text', 'My Marketing Page')
+      .should('have.attr', 'href', '/marketing/')
+
+    cy.contains('My First Post').click()
+    cy.get('article').should('contain.text', 'I am a post')
+  })
+
+})

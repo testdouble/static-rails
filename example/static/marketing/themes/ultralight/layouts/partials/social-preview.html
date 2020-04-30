@@ -1,0 +1,13 @@
+{{ $description := .Params.Description | default "A thing @searls wrote for you." }}
+
+<!-- facebook -->
+<meta property="og:title" content="{{ .Params.Title }}">
+<meta property="og:description" content="{{ $description }}">
+<meta property="og:image" content="{{.Site.BaseURL}}img/facebook-card.png">
+<meta property="og:url" content="{{ .Permalink }}">
+
+<!-- twitter -->
+<meta name="twitter:title" content="{{ .Params.Title }}">
+<meta name="twitter:description" content="{{ $description }}">
+<meta name="twitter:image" content="{{.Site.BaseURL}}img/twitter-card.png">
+<meta name="twitter:card" content="summary_large_image">

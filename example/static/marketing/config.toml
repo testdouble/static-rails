@@ -1,0 +1,4 @@
+baseURL = "http://example.com/marketing"
+languageCode = "en-us"
+title = "My Marketing Page"
+theme = "ultralight"

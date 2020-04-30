@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -e
+
+export CYPRESS_RAILS_PORT=3009
+
+echo "--> Running tests in development, starting all static servers and proxying requests"
+rake cypress:run
+
+echo "--> Precompiling all static site assets with rake assets:precompile"
+rake assets:precompile
+
+echo "--> Running tests in production, *not* starting servers and serving files instead of proxying"
+RAILS_ENV=production rake cypress:run

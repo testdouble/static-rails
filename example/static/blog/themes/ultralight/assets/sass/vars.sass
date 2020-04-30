@@ -1,0 +1,41 @@
+$page-width: 800px
+$wider-display: 500px
+
+$accent: rgb(183, 64, 233)
+
+*:root
+  --realbg: rgb(230, 230, 230)
+  --bgbg: rgb(255, 255, 255)
+  --bg: rgb(255, 255, 255)
+  --accent: #{$accent}
+  --accent-bright: #{$accent}
+  --accent-light: #{lighten($accent, 20%)}
+  --font-color: rgb(27, 27, 27)
+  --subhead-color: rgba(27, 27, 27, 0.65)
+  --shadow-color: rgba(0, 0, 0, 0.2)
+  --blockquote: rgba(0, 0, 0, 0.65)
+  --blockquote-accent: rgba(0, 0, 0, 0.1)
+
+@media (min-width: $page-width)
+  *:root
+    --bgbg: rgb(230, 230, 230)
+
+@media (prefers-color-scheme: dark)
+  *:root
+    --realbg: rgb(50, 50, 51)
+    --bgbg: rgb(74, 74, 77)
+    --bg: rgb(74, 74, 77)
+    --accent: #{darken($accent, 28%)}
+    --accent-bright: #{lighten($accent, 20%)}
+    --accent-light: #{lighten($accent, 30%)}
+    --font-color: rgba(255, 255, 255, 0.78)
+    --subhead-color: rgba(255, 255, 255, 0.65)
+    --blockquote: rgba(255, 255, 255, 0.6)
+    --blockquote-accent: rgba(255, 255, 255, 0.15)
+
+@media (prefers-color-scheme: dark) and (min-width: $page-width)
+  *:root
+    --bgbg: rgb(50, 50, 51)
+
+
+

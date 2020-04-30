@@ -1,0 +1,14 @@
+# theme.toml template for a Hugo theme
+# See https://github.com/gohugoio/hugoThemes#themetoml for an example
+
+name = "Ultralight"
+license = "Unlicensed"
+description = "Private"
+homepage = "http://github.com/searls/hugo-theme-ultralight"
+tags = []
+features = []
+min_version = "0.58"
+
+[author]
+  name = "Justin Searls"
+  homepage = "https://twitter.com/searls"

@@ -1,0 +1,16 @@
+<footer>
+  <nav>
+    <ul>
+      {{ if .Site.Params.TwitterName }}
+        <li><a href="https://twitter.com/{{ .Site.Params.TwitterName }}">tweet me</a></li>
+      {{ end }}
+      {{ if .Site.Params.GithubName }}
+        <li><a href="https://github.com/{{ .Site.Params.GithubName }}">fork me</a></li>
+      {{ end }}
+      {{ if .Site.Params.Email }}
+        <li><a href="mailto:{{.Site.Params.Email}}">write me</a></li>
+      {{ end }}
+    </ul>
+  </nav>
+  {{ partial "js.html" . }}
+</footer>
