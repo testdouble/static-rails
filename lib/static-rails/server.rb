@@ -62,19 +62,5 @@ module StaticRails
       end
       @at_exit_hook_set = true
     end
-
-    def file_path(relative_path)
-      Rails.root.join(relative_path).to_s
-    end
-
-    def chdir(wd, &blk)
-      og = Dir.pwd
-      return_value = Bundler.with_unbundled_env {
-        Dir.chdir(wd)
-        blk.call
-      }
-      Dir.chdir(og)
-      return_value
-    end
   end
 end
