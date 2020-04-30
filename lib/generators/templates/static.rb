@@ -6,6 +6,10 @@ StaticRails.config do |config|
   #   (Applies when a site has both start_server and ping_server set to true)
   # config.ping_server_timeout = 5
 
+  # The list of static sites you are hosting with static-rails.
+  # Note that order matters! Request will be forwarded to the first site that
+  # matches the subdomain and root path (this probably means you want any sites
+  # with subdomains listed first)
   config.sites = [
     # {
     #   # Unique name for the site
