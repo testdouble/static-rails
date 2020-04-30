@@ -77,6 +77,10 @@ To mitigate this, there are a few things you can do:
   base path with `{{ "/" | relURL }}` (given the above `baseURL`, this will
   render `"/marketing/"`)
 
+Also, because Hugo will serve `/livereload.js` from the root, it probably won't
+work in development when running through the static-rails proxy in development.
+You might consider disabling it with `--disableLiveReload`.
+
 A static-rails config for a Hugo configuration in `sites` might look like:
 
 ```rb
@@ -87,7 +91,6 @@ A static-rails config for a Hugo configuration in `sites` might look like:
     server_command: "hugo server",
     server_port: 8080,
     compile_command: "hugo",
-    compile_command: "npx @11ty/eleventy --pathprefix docs",
     compile_dir: "static/docs/public"
   }
 ```
