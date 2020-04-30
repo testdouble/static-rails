@@ -4,6 +4,10 @@ require_relative "proxy_middleware"
 
 module StaticRails
   class Railtie < ::Rails::Railtie
+    rake_tasks do
+      load "tasks/static-rails.rake"
+    end
+
     # Note that user initializer won't have run yet, but we seem to need to
     # register the middleware by now if it's going to properly get added to the
     # stack. So if the user overrides this setting, the middleware will still
