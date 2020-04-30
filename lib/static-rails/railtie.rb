@@ -1,6 +1,7 @@
 require_relative "rack_server_check"
 require_relative "server_store"
 require_relative "proxy_middleware"
+require_relative "static_middleware"
 
 module StaticRails
   class Railtie < ::Rails::Railtie
@@ -12,8 +13,12 @@ module StaticRails
     # register the middleware by now if it's going to properly get added to the
     # stack. So if the user overrides this setting, the middleware will still
     # be added but will be responsible itself for skipping each request (bummer)
-    if RackServerCheck.running? && StaticRails.config.proxy_requests
-      config.app_middleware.insert_before 0, ProxyMiddleware
+    if RackServerCheck.running?
+      if StaticRails.config.proxy_requests
+        config.app_middleware.insert_before 0, ProxyMiddleware
+      elsif StaticRails.config.serve_compiled_assets
+        config.app_middleware.insert_before 0, StaticMiddleware
+      end
     end
 
     config.after_initialize do |app|

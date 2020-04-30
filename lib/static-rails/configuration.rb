@@ -16,12 +16,16 @@ module StaticRails
     # When true, the ProxyMiddleware will be added
     attr_accessor :proxy_requests
 
+    # When true, the StaticMiddleware will be added
+    attr_accessor :serve_compiled_assets
+
     # Number of seconds to wait on sites to confirm servers are ready
     attr_accessor :ping_server_timeout
 
     def initialize
       @sites = []
       @proxy_requests = !Rails.env.production?
+      @serve_compiled_assets = Rails.env.production?
       @ping_server_timeout = 5
     end
 

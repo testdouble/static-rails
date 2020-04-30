@@ -32,12 +32,12 @@ in the following way, by default:
 
 * In `production`, static-rails will use `Rack::Static` to map any requests to
   the Rails server that match the site's `url_subdomain` and `url_root_path`
-  settings
+  settings (note that this is the opposite default for Rails'
+  `config.public_file_server.enabled` setting, which is disabled by default)
 
 For examples on how to configure your static site, read on!
 
-## Configuring your static site generator
-
+## Configuring your static site generators
 
 ### Using Jekyll
 

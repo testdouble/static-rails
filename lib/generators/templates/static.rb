@@ -2,6 +2,9 @@ StaticRails.config do |config|
   # Control whether static-rails adds a middleware to proxy requests to your static site servers
   # config.proxy_requests = !Rails.env.production?
 
+  # Control whether static-rails adds a middleware to serve your sites' compiled static assets with Static::Rack (has no effect if proxy_requests is enabled)
+  # config.serve_compiled_assets = Rails.env.production?
+
   # Timeout in seconds to wait when proxying to  a static server
   #   (Applies when a site has both start_server and ping_server set to true)
   # config.ping_server_timeout = 5
