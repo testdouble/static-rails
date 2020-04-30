@@ -14,6 +14,7 @@ module StaticRails
 
     def perform_request(env)
       return @app.call(env) unless StaticRails.config.proxy_requests
+      ServerStore.instance.ensure_all_servers_are_started
 
       req = Rack::Request.new(env)
       server_store = ServerStore.instance

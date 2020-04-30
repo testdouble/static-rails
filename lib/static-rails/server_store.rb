@@ -6,6 +6,12 @@ module StaticRails
       @instance ||= new
     end
 
+    def ensure_all_servers_are_started
+      StaticRails.config.sites.select(&:start_server).each do |site|
+        server_for(site).start
+      end
+    end
+
     def server_for(site)
       @servers[site] ||= Server.new(site)
     end

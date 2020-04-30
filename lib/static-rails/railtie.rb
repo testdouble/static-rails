@@ -11,14 +11,12 @@ module StaticRails
 
     # Note that user initializer won't have run yet, but we seem to need to
     # register the middleware by now if it's going to properly get added to the
-    # stack. So if the user overrides this setting, the middleware will still
-    # be added but will be responsible itself for skipping each request (bummer)
-    if RackServerCheck.running?
-      if StaticRails.config.proxy_requests
-        config.app_middleware.insert_before 0, ProxyMiddleware
-      elsif StaticRails.config.serve_compiled_assets
-        config.app_middleware.insert_before 0, StaticMiddleware
-      end
+    # stack. So if the user overrides these flags' defaults, the middleware will
+    # still be added but will be responsible itself for skipping each request
+    if StaticRails.config.proxy_requests
+      config.app_middleware.insert_before 0, ProxyMiddleware
+    elsif StaticRails.config.serve_compiled_assets
+      config.app_middleware.insert_before 0, StaticMiddleware
     end
 
     config.after_initialize do |app|
@@ -26,10 +24,7 @@ module StaticRails
       static_rails_config.app = app
 
       if RackServerCheck.running?
-        server_store = ServerStore.instance
-        static_rails_config.sites.select(&:start_server).each do |site|
-          server_store.server_for(site).start
-        end
+        ServerStore.instance.ensure_all_servers_are_started
       end
     end
   end
