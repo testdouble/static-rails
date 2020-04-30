@@ -104,7 +104,7 @@ module.exports = {
 ```
 
 Alternatively, you can specify this from the command line with `--pathprefix
-docs`.
+/docs`.
 
 A static-rails config for an Eleventy configuration in `sites` might look like:
 
@@ -113,9 +113,9 @@ A static-rails config for an Eleventy configuration in `sites` might look like:
     name: "docs",
     url_root_path: "/docs",
     source_dir: "static/docs",
-    server_command: "npx @11ty/eleventy --serve --pathprefix docs",
+    server_command: "npx @11ty/eleventy --serve --pathprefix /docs",
     server_port: 8080,
-    compile_command: "npx @11ty/eleventy --pathprefix docs",
+    compile_command: "npx @11ty/eleventy --pathprefix /docs",
     compile_dir: "static/docs/_site"
   }
 ```
