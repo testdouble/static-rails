@@ -15,11 +15,11 @@ module StaticRails
     def perform_request(env)
       return @app.call(env) unless StaticRails.config.proxy_requests
 
-      request = Rack::Request.new(env)
+      req = Rack::Request.new(env)
       server_store = ServerStore.instance
       server_store.ensure_servers_are_up
 
-      if (req.get? || req.head?) && (site = @matches_request_to_static_site.call(request))
+      if (req.get? || req.head?) && (site = @matches_request_to_static_site.call(req))
         if site.ping_server && (server = server_store.server_for(site))
           server.wait_until_ready
         end
@@ -27,7 +27,7 @@ module StaticRails
         @backend = URI("http://#{site.server_host}:#{site.server_port}")
 
         env["HTTP_HOST"] = @backend.host
-        env["PATH_INFO"] = forwarding_path(site, request)
+        env["PATH_INFO"] = forwarding_path(site, req)
         env["HTTP_COOKIE"] = ""
         super(env)
       else
@@ -37,11 +37,13 @@ module StaticRails
 
     private
 
-    def forwarding_path(site, request)
-      if request.path == site.url_root_path && !request.path.end_with?("/")
-        request.path + "/" # <- Necessary for getting jekyll, possibly hugo to serve the root
+    def forwarding_path(site, req)
+      req_path = req.path_info
+
+      if req_path == site.url_root_path && !req_path.end_with?("/")
+        req_path + "/" # <- Necessary for getting jekyll, possibly hugo to serve the root
       else
-        request.path
+        req_path
       end
     end
   end
