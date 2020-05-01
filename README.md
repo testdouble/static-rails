@@ -2,8 +2,40 @@
 
 [![CircleCI](https://circleci.com/gh/testdouble/static-rails.svg?style=svg)](https://circleci.com/gh/testdouble/static-rails)
 
-A gem to support integrating one or more static sites with your Rails
-application.
+## What is this thing?
+
+**tl;dr** in development, static-rails runs your static site generators; in
+production, it serves the assets they compile
+
+Static site generators are hot right now. Maybe you're hip with "the
+[Jamstack](https://jamstack.org)", or maybe your API documentation is generated
+by [Hugo](https://gohugo.io), or maybe your marketing folks are all using
+[Jekyll](https://jekyllrb.com) for the company blog.
+
+Up until now, compiling static assets with any degree of sophistication beyond
+dumping them in your app's `public/` directory represented a significant
+deviation from the "Rails Way". But the alternative—keeping your static pages
+entirely separate from your Rails app—raises myriad operational challenges, from
+tracking multiple git repositories, to managing multiple server configurations,
+and figuring out a way to share common JavaScript and CSS assets.
+
+But we are no longer constrained by that old choice, because now we have the
+static-rails gem! Finally, you can have our Rails app and static sites in one
+place with a minimal amount of pain.
+
+Here's what it does:
+
+* In `development` and `test` environments, the gem will run launch each site's
+  `serve_command` and proxy any requests to the Rails server that match the
+  `url_subdomain` and `url_root_path` you want to mount it at
+
+* When you run `rake assets:precompile` (typically performed during a deploy),
+  it will run the `compile_command` you've configured for each site
+
+* In `production`, the gem will host each of your sites' compiled assets at the
+  same subdomain and path you've configured, using the same middleware that
+  Rails uses to host your `public/` assets. (Putting a performant CDN in
+  front of them remains an exercise to the reader.)
 
 ## Install
 
@@ -13,31 +45,17 @@ Add this to the Gemfile of your Rails app:
 gem "static-rails"
 ```
 
-And run this to generate an initializer in which to configure your static sites:
+Then run this generator to create a configuration file in
+`config/initializers/static.rb`:
 
 ```
 $ rails g static_rails:initializer
 ```
 
-This will create an documented configuration file in
-`config/initializers/static.rb`
+## Configuring the gem
 
 Once installed, any `config.sites` you specify will be handled by static-rails
 in the following way, by default:
-
-* In `development` and `test`, static-rails will start each site's
-  `serve_command` and proxy any requests to the Rails server that match the
-  `url_subdomain` and `url_root_path` to that server
-
-* When running `rake assets:precompile` (typically performed during a deploy),
-  static-rails will run the `compile_command` for each configured site
-
-* In `production`, static-rails will use `Rack::Static` to map any requests to
-  the Rails server that match the site's `url_subdomain` and `url_root_path`
-  settings (note that this is the opposite default for Rails'
-  `config.public_file_server.enabled` setting, which is disabled by default)
-
-For examples on how to configure your static site, read on!
 
 ## Configuring your static site generators
 
