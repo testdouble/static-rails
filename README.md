@@ -4,42 +4,43 @@
 
 ## What is this thing?
 
-**tl;dr** in development, static-rails runs your static site generators; in
-production, it serves the assets they compile
+**tl;dr in development, static-rails runs your static site generators &
+proxies requests; in production, it compiles and serves the final assets**
 
 Static site generators are hot right now. Maybe you're hip with "the
 [Jamstack](https://jamstack.org)", or maybe your API documentation is generated
-by [Hugo](https://gohugo.io), or maybe your marketing folks are all using
+by [Hugo](https://gohugo.io), or maybe your marketing folks use
 [Jekyll](https://jekyllrb.com) for the company blog.
 
 Up until now, compiling static assets with any degree of sophistication beyond
 dumping them in your app's `public/` directory represented a significant
-deviation from the "Rails Way". But the alternative—keeping your static pages
-entirely separate from your Rails app—raises myriad operational challenges, from
+deviation from the "Rails Way". But the alternative—keeping your static sites
+wholly separate from your Rails app—raises myriad operational challenges, from
 tracking multiple git repositories, to managing multiple server configurations,
-and figuring out a way to share common JavaScript and CSS assets.
+to figuring out a way to share common JavaScript and CSS assets between them
+all.
 
-But we are no longer constrained by that old choice, because now we have the
-static-rails gem! Finally, you can have our Rails app and static sites in one
-place with a minimal amount of pain.
+No longer! static-rails lets you use your static asset generators of choice
+without forcing to abandon your monolithic Rails architecture.
 
 Here's what it does:
 
 * In `development` and `test` environments, the gem will run launch each site's
-  `serve_command` and proxy any requests to the Rails server that match the
-  `url_subdomain` and `url_root_path` you want to mount it at
+  `serve_command` and proxy to them any requests that match their configured
+  `url_subdomain` and `url_root_path` properties
 
-* When you run `rake assets:precompile` (typically performed during a deploy),
-  it will run the `compile_command` you've configured for each site
+* When running `rake assets:precompile` (typically performed during a deploy),
+  the `compile_command` you've configured will be executed for each of your
+  sites
 
-* In `production`, the gem will host each of your sites' compiled assets at the
-  same subdomain and path you've configured, using the same middleware that
-  Rails uses to host your `public/` assets. (Putting a performant CDN in
-  front of them remains an exercise to the reader.)
+* In `production`, the gem will host each of your sites' assets out of your
+  configured `compile_dir`, using the same middleware code that Rails uses to
+  host assets out of `public/`. (Putting a performant CDN in front of everything
+  remains an exercise for the reader.)
 
 ## Install
 
-Add this to the Gemfile of your Rails app:
+Add this to your Gemfile:
 
 ```
 gem "static-rails"
@@ -52,12 +53,15 @@ Then run this generator to create a configuration file in
 $ rails g static_rails:initializer
 ```
 
-## Configuring the gem
-
-Once installed, any `config.sites` you specify will be handled by static-rails
-in the following way, by default:
+You can check out the configuration options in the [generated file's
+comments](/lib/generators/templates/static.rb).
 
 ## Configuring your static site generators
+
+Assuming you won't be mounting your static site to your app's root `/` path,
+you'll probably need to configure it to set up asset paths correctly. Here are
+some tips (if your tool of choice isn't listed, give it a shot and send a [pull
+request](https://github.com/testdouble/static-rails/edit/master/README.md)):
 
 ### Using Jekyll
 
