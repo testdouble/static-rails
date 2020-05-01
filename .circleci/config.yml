@@ -56,17 +56,17 @@ jobs:
           key: v2-yarn-{{ checksum "example/yarn.lock" }}
 
       # Bundle install dependencies for jekyll app
-      - type: cache-restore
-        key: v1-jekyll-{{ checksum "example/static/docs/Gemfile.lock" }}
+      # - type: cache-restore
+      #   key: v1-jekyll-{{ checksum "example/static/docs/Gemfile.lock" }}
 
       - run: |
           cd example/static/docs
-          bundle install --path vendor/bundle
+          bundle install # --path vendor/bundle
 
-      - type: cache-save
-        key: v1-jekyll-{{ checksum "example/static/docs/Gemfile.lock" }}
-        paths:
-          - example/static/docs/vendor/bundle
+      # - type: cache-save
+      #   key: v1-jekyll-{{ checksum "example/static/docs/Gemfile.lock" }}
+      #   paths:
+      #     - example/static/docs/vendor/bundle
 
       # Npm install for Eleventy app
       - restore_cache:
