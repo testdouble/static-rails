@@ -21,7 +21,7 @@ to figuring out a way to share common JavaScript and CSS assets between them
 all.
 
 No longer! static-rails lets you use your static asset generators of choice
-without forcing to abandon your monolithic Rails architecture.
+without forcing you to abandon your monolithic Rails architecture.
 
 Here's what it does:
 
@@ -34,7 +34,7 @@ Here's what it does:
   sites
 
 * In `production`, the gem will host each of your sites' assets out of your
-  configured `compile_dir`, using the same middleware code that Rails uses to
+  configured `compile_dir` using the same middleware code that Rails uses to
   host assets out of `public/`. (Putting a performant CDN in front of everything
   remains an exercise for the reader.)
 
@@ -46,7 +46,7 @@ Add this to your Gemfile:
 gem "static-rails"
 ```
 
-Then run this generator to create a configuration file in
+Then run this generator to create a configuration file 
 `config/initializers/static.rb`:
 
 ```
@@ -62,9 +62,9 @@ app](/example) right in this repo!
 ## Configuring your static site generators
 
 Assuming you won't be mounting your static site to your app's root `/` path,
-you'll probably need to configure it to set up asset paths correctly. Here are
-some tips (if your tool of choice isn't listed, give it a shot and send a [pull
-request](https://github.com/testdouble/static-rails/edit/master/README.md)):
+you'll probably need to configure its base URL path somehow. Here are
+some tips (and if your tool of choice isn't listed, we'd love a [pull
+request](https://github.com/testdouble/static-rails/edit/master/README.md)!):
 
 ### Using Jekyll
 
@@ -104,8 +104,8 @@ To mitigate this, there are a few things you can do:
   base path with `{{ "/" | relURL }}` (given the above `baseURL`, this will
   render `"/marketing/"`)
 
-Also, because Hugo will serve `/livereload.js` from the root, it probably won't
-work in development when running through the static-rails proxy in development.
+Also, because Hugo will serve `/livereload.js` from the root, live-reloading probably 
+won't work in development when running through the static-rails proxy.
 You might consider disabling it with `--disableLiveReload`.
 
 A static-rails config for a Hugo configuration in `sites` might look like:
@@ -152,10 +152,10 @@ A static-rails config for an Eleventy configuration in `sites` might look like:
 
 ### Using Gatsby
 
-** ⚠️ Gatsby is unlikely to work in development mode, due to [this
+<strong> ⚠️ Gatsby is unlikely to work in development mode, due to [this
 issue](https://github.com/gatsbyjs/gatsby/issues/18143), wherein all the assets
 are actually served over a socket.io WebSocket channel and not able to be
-proxied effectively. ⚠️  **
+proxied effectively. ⚠️  </strong>
 
 If you're mounting a [Gatsby](https://www.gatsbyjs.org) site to a non-root path
 (e.g. in static-rails, you've configured its `url_root_path` to, say,
