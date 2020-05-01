@@ -56,6 +56,9 @@ $ rails g static_rails:initializer
 You can check out the configuration options in the [generated file's
 comments](/lib/generators/templates/static.rb).
 
+Want an example of setting things up? You're in luck, there's an [example
+app](/example) right in this repo!
+
 ## Configuring your static site generators
 
 Assuming you won't be mounting your static site to your app's root `/` path,
