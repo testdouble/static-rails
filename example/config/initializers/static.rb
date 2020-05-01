@@ -26,6 +26,7 @@ StaticRails.config do |config|
       name: "docs",
       url_root_path: "/docs",
       source_dir: "static/docs",
+      env: {"BUNDLE_PATH" => "vendor/bundle"},
       server_command: "bundle exec jekyll serve",
       server_port: 4000,
       compile_command: "bundle exec jekyll build",
