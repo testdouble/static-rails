@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.authors = ["Justin Searls"]
   spec.email = ["searls@gmail.com"]
 
-  spec.summary = "Make Rails play nicely with static sites (Hugo, Gatsby, etc)"
+  spec.summary = "Build & serve static sites (e.g. Jekyll, Hugo) from your Rails app"
   spec.homepage = "https://github.com/testdouble/static-rails"
   spec.license = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")

@@ -1,0 +1,63 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.7-node-browsers
+        environment:
+          RUBYOPT: "-W:no-deprecated -W:no-experimental"
+    steps:
+      - checkout
+
+      - run:
+        name: Add fake blog to the host
+        command: echo 127.0.0.1 blog.localhost | sudo tee -a /etc/hosts
+
+      # One of the apps needs hugo
+      - run: apt-get update && apt-get install -y --no-install-recommends hugo
+
+      # Bundle install dependencies
+      - type: cache-restore
+        key: v1-main-{{ checksum "Gemfile.lock" }}
+
+      - run: gem install bundler --version `tail -1 Gemfile.lock`
+      - run: bundle install --path vendor/bundle
+
+      - type: cache-save
+        key: v1-main-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+
+      # Bundle install dependencies for example app
+      - type: cache-restore
+        key: v1-example-{{ checksum "example/Gemfile.lock" }}
+
+      - run: |
+          cd example
+          bundle install --path vendor/bundle
+
+      - type: cache-save
+        key: v1-example-{{ checksum "example/Gemfile.lock" }}
+        paths:
+          - example/vendor/bundle
+
+      # Yarn dependencies
+      - restore_cache:
+          keys:
+            - v2-yarn-{{ checksum "example/yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v2-yarn-
+
+      - run: |
+          cd example
+          yarn install
+
+      - save_cache:
+          paths:
+            - example/node_modules
+            - ~/.cache
+          key: v2-yarn-{{ checksum "example/yarn.lock" }}
+
+      - run: bin/rake standard:fix
+      - run: |
+        cd example
+        ./script/test
