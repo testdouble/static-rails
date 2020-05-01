@@ -7,7 +7,7 @@ description = "Private"
 homepage = "http://github.com/searls/hugo-theme-ultralight"
 tags = []
 features = []
-min_version = "0.58"
+min_version = "0.54"
 
 [author]
   name = "Justin Searls"

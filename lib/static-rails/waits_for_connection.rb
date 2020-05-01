@@ -8,7 +8,7 @@ module StaticRails
       loop do
         Socket.tcp(site.server_host, site.server_port, connect_timeout: 5)
         break
-      rescue Errno::ECONNREFUSED
+      rescue Errno::ECONNREFUSED, Errno::EADDRNOTAVAIL
         elapsed = Time.new - start
         if elapsed > timeout
           raise Error.new("Static site server \"#{site.name}\" failed to start within #{timeout} seconds. You can change the timeout with `StaticRails.config.ping_server_timeout = 42`")
