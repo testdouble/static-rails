@@ -17,7 +17,7 @@ StaticRails.config do |config|
       url_subdomain: "blog",
       url_root_path: "/",
       source_dir: "static/blog",
-      server_command: "hugo server",
+      server_command: "hugo server --disableLiveReload",
       server_port: 1313,
       compile_command: "hugo",
       compile_dir: "static/blog/public"
@@ -35,7 +35,7 @@ StaticRails.config do |config|
       name: "marketing",
       url_root_path: "/marketing",
       source_dir: "static/marketing",
-      server_command: "hugo server -p 1314",
+      server_command: "hugo server -p 1314 --disableLiveReload",
       server_port: 1314,
       compile_command: "hugo",
       compile_dir: "static/marketing/public"
