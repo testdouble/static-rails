@@ -55,6 +55,35 @@ jobs:
             - ~/.cache
           key: v2-yarn-{{ checksum "example/yarn.lock" }}
 
+      # Bundle install dependencies for jekyll app
+      - type: cache-restore
+        key: v1-jekyll-{{ checksum "example/static/docs/Gemfile.lock" }}
+
+      - run: |
+          cd example/static/docs
+          bundle install --path vendor/bundle
+
+      - type: cache-save
+        key: v1-jekyll-{{ checksum "example/static/docs/Gemfile.lock" }}
+        paths:
+          - example/static/docs/vendor/bundle
+
+      # Npm install for Eleventy app
+      - restore_cache:
+          keys:
+            - v1-eleventy-{{ checksum "example/static/blog-docs/package-lock.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-eleventy-
+
+      - run: |
+          cd example/static/blog-docs
+          npm install
+
+      - save_cache:
+          paths:
+            - example/static/blog-docs/node_modules
+          key: v1-eleventy-{{ checksum "example/static/blog-docs/package-lock.json" }}
+
       - run: bundle exec rake standard:fix
       - run: |
           cd example
