@@ -8,9 +8,7 @@ jobs:
     steps:
       - checkout
 
-      - run:
-        name: Add fake blog to the host
-        command: echo 127.0.0.1 blog.localhost | sudo tee -a /etc/hosts
+      - run: echo 127.0.0.1 blog.localhost | sudo tee -a /etc/hosts
 
       # One of the apps needs hugo
       - run: apt-get update && apt-get install -y --no-install-recommends hugo
