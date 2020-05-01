@@ -1,5 +1,7 @@
 # static-rails
 
+[![CircleCI](https://circleci.com/gh/testdouble/static-rails.svg?style=svg)](https://circleci.com/gh/testdouble/static-rails)
+
 A gem to support integrating one or more static sites with your Rails
 application.
 
@@ -160,3 +162,12 @@ A static-rails config for a Gatsby configuration in `sites` might look like:
     compile_dir: "static/docs/public"
   },
 ```
+
+## Code of Conduct
+
+This project follows Test Double's [code of
+conduct](https://testdouble.com/code-of-conduct) for all community interactions,
+including (but not limited to) one-on-one communications, public posts/comments,
+code reviews, pull requests, and GitHub issues. If violations occur, Test Double
+will take any action they deem appropriate for the infraction, up to and
+including blocking a user from the organization's repositories.
