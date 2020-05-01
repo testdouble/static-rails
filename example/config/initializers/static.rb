@@ -26,9 +26,9 @@ StaticRails.config do |config|
       name: "docs",
       url_root_path: "/docs",
       source_dir: "static/docs",
-      server_command: "jekyll serve",
+      server_command: "bundle exec jekyll serve",
       server_port: 4000,
-      compile_command: "jekyll build",
+      compile_command: "bundle exec jekyll build",
       compile_dir: "static/docs/_site"
     },
     {
