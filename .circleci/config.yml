@@ -55,7 +55,7 @@ jobs:
             - ~/.cache
           key: v2-yarn-{{ checksum "example/yarn.lock" }}
 
-      - run: bundle exec standard:fix
+      - run: bundle exec rake standard:fix
       - run: |
           cd example
           ./script/test
