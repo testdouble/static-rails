@@ -37,4 +37,10 @@ describe('rails-static stuff seems to work', () => {
     cy.get('article').should('contain.text', 'I am a post')
   })
 
+  it('can access an API carved out within where the 11ty site is mounted', () => {
+    cy.request('http://blog.localhost:3009/docs/api/houses/22').should((response) => {
+      expect(response.status).to.eq(200)
+      expect(response.body).to.have.property('id', '22')
+    })
+  })
 })

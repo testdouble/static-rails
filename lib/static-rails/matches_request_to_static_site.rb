@@ -2,7 +2,7 @@ module StaticRails
   class MatchesRequestToStaticSite
     def call(request)
       StaticRails.config.sites.find { |site|
-        subdomain_match?(site, request) && path_match?(site, request)
+        subdomain_match?(site, request) && path_match?(site, request) && !skip_path?(site, request)
       }
     end
 
@@ -19,6 +19,12 @@ module StaticRails
 
     def path_match?(site, request)
       request.path_info.start_with?(site.url_root_path)
+    end
+
+    def skip_path?(site, request)
+      site.url_skip_paths_starting_with.any? { |path_start|
+        request.path_info.start_with?(path_start)
+      }
     end
   end
 end

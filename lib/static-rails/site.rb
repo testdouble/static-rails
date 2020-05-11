@@ -3,6 +3,7 @@ module StaticRails
     :name,
     :url_subdomain,
     :url_root_path,
+    :url_skip_paths_starting_with,
     :source_dir,
     :start_server,
     :ping_server,
@@ -18,6 +19,7 @@ module StaticRails
 
     def initialize(
       url_root_path: "/",
+      url_skip_paths_starting_with: [],
       start_server: !Rails.env.production?,
       ping_server: true,
       env: {},
@@ -25,11 +27,13 @@ module StaticRails
       server_path: "/",
       **other_kwargs
     )
+      @url_root_path = url_root_path
+      @url_skip_paths_starting_with = url_skip_paths_starting_with
       @start_server = start_server
+      @ping_server = ping_server
       @env = env
       @server_host = server_host
       @server_path = server_path
-      @ping_server = ping_server
       super
     end
   end

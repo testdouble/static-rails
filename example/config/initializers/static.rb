@@ -6,6 +6,7 @@ StaticRails.config do |config|
       name: "blog-docs",
       url_subdomain: "blog",
       url_root_path: "/docs",
+      url_skip_paths_starting_with: ["/docs/api/"],
       source_dir: "static/blog-docs",
       server_command: "npx @11ty/eleventy --serve --pathprefix /docs",
       server_port: 8080,
@@ -16,6 +17,7 @@ StaticRails.config do |config|
       name: "blog",
       url_subdomain: "blog",
       url_root_path: "/",
+      url_skip_paths_starting_with: ["/docs/api/"],
       source_dir: "static/blog",
       server_command: "hugo server --disableLiveReload",
       server_port: 1313,
@@ -25,6 +27,7 @@ StaticRails.config do |config|
     {
       name: "docs",
       url_root_path: "/docs",
+      url_skip_paths_starting_with: ["/docs/api/"],
       source_dir: "static/docs",
       env: {"BUNDLE_PATH" => "vendor/bundle"},
       server_command: "bundle exec jekyll serve",

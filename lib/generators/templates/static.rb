@@ -28,6 +28,9 @@ StaticRails.config do |config|
     #   # Mount the static site web hosting to a certain sub-path (e.g. "/docs")
     #   url_root_path: "/",
     #
+    #   # Don't serve/redirect routes whose paths start with these strings
+    #   url_skip_paths_starting_with: ["/api"]
+    #
     #   # Whether to run the local development/test server or not
     #   start_server: !Rails.env.production?,
     #
