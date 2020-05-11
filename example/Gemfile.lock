@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    static-rails (0.0.1)
+    static-rails (0.0.2)
       rack-proxy (~> 0.6)
       railties (>= 5.0.0)
 
@@ -86,6 +86,10 @@ GEM
     cypress-rails (0.2.0)
       puma (>= 3.8.0)
       railties (>= 5.2.0)
+    dotenv (2.7.5)
+    dotenv-rails (2.7.5)
+      dotenv (= 2.7.5)
+      railties (>= 3.2, < 6.1)
     erubi (1.9.0)
     ffi (1.12.2)
     globalid (0.4.2)
@@ -238,6 +242,7 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   cypress-rails
+  dotenv-rails
   jbuilder (~> 2.7)
   listen (>= 3.0.5, < 3.2)
   pry-rails
