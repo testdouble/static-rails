@@ -10,28 +10,29 @@ module StaticRails
       @proxy_middleware = ProxyMiddleware.new(app)
       @static_middleware = StaticMiddleware.new(app)
       @determines_whether_to_handle_request = DeterminesWhetherToHandleRequest.new
-      @gets_csrf_token = GetsCsrfToken.new
     end
 
     def call(env)
       return @app.call(env) unless @determines_whether_to_handle_request.call(env)
 
-      status, headers, body = if StaticRails.config.proxy_requests
+      if require_csrf_before_processing_request? && !csrf_token_is_set?(env)
+        @app.call(env)
+      elsif StaticRails.config.proxy_requests
         @proxy_middleware.call(env)
       elsif StaticRails.config.serve_compiled_assets
         @static_middleware.call(env)
       end
+    end
 
-      if StaticRails.config.set_csrf_token_cookie
-        req = Rack::Request.new(env)
-        res = Rack::Response.new(body, status, headers)
-        res.set_cookie("_csrf_token", {
-          value: @gets_csrf_token.call(req)
-        })
-        res.finish
-      else
-        [status, headers, body]
-      end
+    protected
+
+    # Override this in subclass since it'll call super(env) and deal itself
+    def require_csrf_before_processing_request?
+      StaticRails.config.set_csrf_token_cookie
+    end
+
+    def csrf_token_is_set?(env)
+      Rack::Request.new(env).cookies.has_key?("_csrf_token")
     end
   end
 end

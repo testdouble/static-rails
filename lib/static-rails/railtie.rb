@@ -1,8 +1,7 @@
 require_relative "rack_server_check"
 require_relative "server_store"
-require_relative "conditional_cookies_middleware"
-require_relative "conditional_session_cookie_store_middleware"
 require_relative "site_middleware"
+require_relative "site_plus_csrf_middleware"
 
 module StaticRails
   class Railtie < ::Rails::Railtie
@@ -11,11 +10,8 @@ module StaticRails
     end
 
     initializer "static_rails.middleware" do
-      config.app_middleware.insert_after ActionDispatch::Session::CookieStore, SiteMiddleware
-      # config.app_middleware.insert_before 0, ConditionalSessionCookieStoreMiddleware
-      # config.app_middleware.insert_before 0, ConditionalCookiesMiddleware
-      # config.app_middleware.insert_before 0, ActionDispatch::Session::CookieStore
-      # config.app_middleware.insert_before 0, ActionDispatch::Cookies
+      config.app_middleware.insert_before 0, SiteMiddleware
+      config.app_middleware.insert_after ActionDispatch::Session::CookieStore, SitePlusCsrfMiddleware
     end
 
     config.after_initialize do |app|
