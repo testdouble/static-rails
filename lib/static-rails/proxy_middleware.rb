@@ -1,14 +1,12 @@
 require "rack-proxy"
 
 require_relative "matches_request_to_static_site"
-require_relative "sets_csrf_token"
 require_relative "server_store"
 
 module StaticRails
   class ProxyMiddleware < Rack::Proxy
     def initialize(app)
       @matches_request_to_static_site = MatchesRequestToStaticSite.new
-      @sets_csrf_token = SetsCsrfToken.new
       @app = app
       @servers = {}
       super
@@ -31,10 +29,7 @@ module StaticRails
         env["HTTP_HOST"] = @backend.host
         env["PATH_INFO"] = forwarding_path(site, req)
 
-        status, headers, body = super(env)
-        res = Rack::Response.new(body, status, headers)
-        @sets_csrf_token.call(req, res) if StaticRails.config.set_csrf_token_cookie
-        res.finish
+        super(env)
       else
         @app.call(env)
       end

@@ -1,9 +1,7 @@
 module StaticRails
-  class SetsCsrfToken
-    def call(req, res)
-      res.set_cookie("_csrf_token", {
-        value: masked_authenticity_token(req.session)
-      })
+  class GetsCsrfToken
+    def call(req)
+      masked_authenticity_token(req.session)
     end
 
     private
