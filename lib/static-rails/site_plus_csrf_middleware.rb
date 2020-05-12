@@ -13,6 +13,9 @@ module StaticRails
     def call(env)
       return @app.call(env) unless @determines_whether_to_handle_request.call(env)
 
+      env = env.merge(
+        "PATH_INFO" => env["PATH_INFO"].gsub(/#{PATH_INFO_OBFUSCATION}/, "")
+      )
       status, headers, body = super(env)
 
       if StaticRails.config.set_csrf_token_cookie

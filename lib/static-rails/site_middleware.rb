@@ -5,6 +5,8 @@ require_relative "gets_csrf_token"
 
 module StaticRails
   class SiteMiddleware
+    PATH_INFO_OBFUSCATION = "JujJVj31M3SpzTjIGBJ2-3iE0lKXOIOlbLuk9Lxwe-Ll2uLuwH5KD8dmt1MqyZ"
+
     def initialize(app)
       @app = app
       @proxy_middleware = ProxyMiddleware.new(app)
@@ -16,7 +18,7 @@ module StaticRails
       return @app.call(env) unless @determines_whether_to_handle_request.call(env)
 
       if require_csrf_before_processing_request? && !csrf_token_is_set?(env)
-        @app.call(env)
+        @app.call(env.merge("PATH_INFO" => env["PATH_INFO"] + PATH_INFO_OBFUSCATION))
       elsif StaticRails.config.proxy_requests
         @proxy_middleware.call(env)
       elsif StaticRails.config.serve_compiled_assets
