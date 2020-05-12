@@ -6,12 +6,12 @@ module StaticRails
 
     private
 
-    def real_csrf_token(session)
-      ActionController::RequestForgeryProtection.instance_method(:real_csrf_token).bind(self).call(session)
-    end
-
     def masked_authenticity_token(session, form_options: {})
       ActionController::RequestForgeryProtection.instance_method(:masked_authenticity_token).bind(self).call(session, form_options)
+    end
+
+    def real_csrf_token(session)
+      ActionController::RequestForgeryProtection.instance_method(:real_csrf_token).bind(self).call(session)
     end
 
     def xor_byte_strings(s1, s2)
