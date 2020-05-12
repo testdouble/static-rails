@@ -8,7 +8,7 @@ module Docs
       end
 
       def show
-        if params[:id] == 22
+        if params[:id] == "22"
           render json: {
             id: 22,
             fake: true

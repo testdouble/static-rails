@@ -13,10 +13,12 @@ module StaticRails
     # register the middleware by now if it's going to properly get added to the
     # stack. So if the user overrides these flags' defaults, the middleware will
     # still be added but will be responsible itself for skipping each request
-    if StaticRails.config.proxy_requests
-      config.app_middleware.insert_before 0, ProxyMiddleware
-    elsif StaticRails.config.serve_compiled_assets
-      config.app_middleware.insert_before 0, StaticMiddleware
+    initializer "static_rails.middleware" do
+      if StaticRails.config.proxy_requests
+        config.app_middleware.insert_after ActionDispatch::Session::CookieStore, ProxyMiddleware
+      elsif StaticRails.config.serve_compiled_assets
+        config.app_middleware.insert_after ActionDispatch::Session::CookieStore, StaticMiddleware
+      end
     end
 
     config.after_initialize do |app|

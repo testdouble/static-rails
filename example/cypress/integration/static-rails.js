@@ -37,12 +37,21 @@ describe('rails-static stuff seems to work', () => {
     cy.get('article').should('contain.text', 'I am a post')
   })
 
-  it.only('can access an API carved out within where the 11ty site is mounted', () => {
-    cy.request('POST', 'http://blog.localhost:3009/docs/api/houses').then((res) => {
-      cy.request(`http://blog.localhost:3009/docs/api/houses/${res.body.id}`).should((response) => {
-        expect(response.status).to.eq(200)
-        expect(response.body).to.have.property('id', '22')
-        expect(response.body).to.have.property('fake', true)
+  it('can access an API carved out within where the 11ty site is mounted', () => {
+    cy.visit('http://blog.localhost:3009/docs')
+    cy.getCookie('_csrf_token').then((cookie) => {
+      cy.request({
+        url: 'http://blog.localhost:3009/docs/api/houses',
+        method: 'POST',
+        headers: {
+          'x-csrf-token': decodeURIComponent(cookie.value)
+        }
+      }).then((res) => {
+        cy.request(`http://blog.localhost:3009/docs/api/houses/${res.body.id}`).should((response) => {
+          expect(response.status).to.eq(200)
+          expect(response.body).to.have.property('id', 22)
+          expect(response.body).to.have.property('fake', true)
+        })
       })
     })
   })
