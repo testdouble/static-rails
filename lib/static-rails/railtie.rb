@@ -11,7 +11,7 @@ module StaticRails
 
     initializer "static_rails.middleware" do
       config.app_middleware.insert_before 0, SiteMiddleware
-      config.app_middleware.insert_after ActionDispatch::Session::CookieStore, SitePlusCsrfMiddleware
+      config.app_middleware.use SitePlusCsrfMiddleware
     end
 
     config.after_initialize do |app|
