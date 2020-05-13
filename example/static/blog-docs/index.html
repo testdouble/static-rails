@@ -1,1 +1,31 @@
-<!doctype html><html><head><title>Page title</title></head><body><p>Hi</p></body></html>
+<!doctype html>
+<html>
+  <head>
+    <title>Page title</title>
+  </head>
+  <body>
+    <p>Hi</p>
+    <div id="api-result"></div>
+    <script>
+      function getCookie(name) {
+        return decodeURIComponent(document.cookie
+          .split(';')
+          .find(entry => entry.split('=')[0] == name)
+          .match(/_csrf_token=(.*)/)[1])
+      }
+
+      fetch('/docs/api/houses', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-csrf-token': getCookie('_csrf_token')
+        },
+      }).then(response => response.json()).then(data =>
+        document.querySelector('#api-result').textContent = `
+          API liked our CSRF token and sent back ID: ${data.id}
+        `
+      );
+
+    </script>
+  </body>
+</html>

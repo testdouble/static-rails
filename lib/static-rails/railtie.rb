@@ -1,7 +1,7 @@
 require_relative "rack_server_check"
 require_relative "server_store"
-require_relative "proxy_middleware"
-require_relative "static_middleware"
+require_relative "site_middleware"
+require_relative "site_plus_csrf_middleware"
 
 module StaticRails
   class Railtie < ::Rails::Railtie
@@ -9,14 +9,9 @@ module StaticRails
       load "tasks/static-rails.rake"
     end
 
-    # Note that user initializer won't have run yet, but we seem to need to
-    # register the middleware by now if it's going to properly get added to the
-    # stack. So if the user overrides these flags' defaults, the middleware will
-    # still be added but will be responsible itself for skipping each request
-    if StaticRails.config.proxy_requests
-      config.app_middleware.insert_before 0, ProxyMiddleware
-    elsif StaticRails.config.serve_compiled_assets
-      config.app_middleware.insert_before 0, StaticMiddleware
+    initializer "static_rails.middleware" do
+      config.app_middleware.insert_before 0, SiteMiddleware
+      config.app_middleware.use SitePlusCsrfMiddleware
     end
 
     config.after_initialize do |app|

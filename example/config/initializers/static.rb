@@ -1,6 +1,4 @@
 StaticRails.config do |config|
-  # config.proxy_requests = true
-
   config.sites = [
     {
       name: "blog-docs",

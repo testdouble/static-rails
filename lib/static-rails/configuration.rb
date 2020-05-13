@@ -22,11 +22,15 @@ module StaticRails
     # Number of seconds to wait on sites to confirm servers are ready
     attr_accessor :ping_server_timeout
 
+    # When true, a cookie named "_csrf_token" will be set by static-rails middleware
+    attr_accessor :set_csrf_token_cookie
+
     def initialize
       @sites = []
       @proxy_requests = !Rails.env.production?
       @serve_compiled_assets = Rails.env.production?
       @ping_server_timeout = 5
+      @set_csrf_token_cookie = true
     end
 
     attr_reader :sites
