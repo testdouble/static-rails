@@ -1,3 +1,9 @@
+## 0.0.4
+
+* Add a cookie named `_csrf_token` by default to all static site requests, so
+  that your static sites can make CSRF-protected requests of your server
+  ([#4](https://github.com/testdouble/static-rails/pull/4))
+
 ## 0.0.3
 
 * Add `url_skip_paths_starting_with` array of strings option to site
