@@ -1,11 +1,14 @@
 
 describe('rails-static stuff seems to work', () => {
   it('accesses the 11ty site at blog.localhost/docs', () => {
-    cy.visit(`http://blog.localhost:3009/docs`)
-    cy.get('p').should('have.text', 'Hi')
-
+    // Make sure the literal index HTML file works
     cy.visit(`http://blog.localhost:3009/docs/index.html`)
     cy.get('p').should('have.text', 'Hi')
+
+    // Also make sure hitting the directory without trailing / works
+    cy.visit(`http://blog.localhost:3009/docs`)
+    cy.get('p').should('have.text', 'Hi')
+    cy.get('#api-result').should('contain.text', 'API liked our CSRF token and sent back ID: 22')
   })
 
   it('accesses the hugo site at blog.localhost', () => {
