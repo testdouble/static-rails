@@ -11,7 +11,7 @@
         return decodeURIComponent(document.cookie
           .split(';')
           .find(entry => entry.split('=')[0] == name)
-          .match(/_csrf_token=(.*)/)[1])
+          .match(/.*=(.*)$/)[1])
       }
 
       fetch('/docs/api/houses', {
