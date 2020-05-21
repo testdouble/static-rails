@@ -1,4 +1,5 @@
 require "rack-proxy"
+require "action_dispatch/middleware/static"
 
 require_relative "matches_request_to_static_site"
 
