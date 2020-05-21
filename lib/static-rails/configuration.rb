@@ -13,10 +13,10 @@ module StaticRails
     # When Rails invokes our Railtie, we'll save off a reference to the Rails app
     attr_accessor :app
 
-    # When true, the ProxyMiddleware will be added
+    # When true, our middleware will proxy requests to static site servers
     attr_accessor :proxy_requests
 
-    # When true, the StaticMiddleware will be added
+    # When true, our middleware will serve sites' compiled asset files
     attr_accessor :serve_compiled_assets
 
     # Number of seconds to wait on sites to confirm servers are ready
