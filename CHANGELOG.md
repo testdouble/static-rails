@@ -1,3 +1,8 @@
+## 0.0.5
+
+* Add a site option `compile_404_file_path` to specify a file to be used as a
+  404 page when serving compiled assets and no file is found
+
 ## 0.0.4
 
 * Add a cookie named `_csrf_token` by default to all static site requests, so
