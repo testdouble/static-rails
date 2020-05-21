@@ -66,6 +66,9 @@ StaticRails.config do |config|
     #
     #   # The destination of production-compiled assets, relative to Rails root
     #   compile_dir: "static/blog/dist"
+    #
+    #   # A 404 page to be sent when serving compiled assets and no file matches
+    #   compile_404_file_path: "404.html"
     # },
   ]
 end

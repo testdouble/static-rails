@@ -40,6 +40,15 @@ describe('rails-static stuff seems to work', () => {
     cy.get('article').should('contain.text', 'I am a post')
   })
 
+  it('[Production only] 404 page for /marketing is rendered correctly', () => {
+    if (Cypress.env('RAILS_ENV') !== 'production') return
+
+    cy.visit('http://localhost:3009/marketing/ajsdoasjdaodjoadj')
+
+    cy.get('#message')
+      .should('contain.text', 'I am a 404 page for /marketing')
+  })
+
   it('can access an API carved out within where the 11ty site is mounted', () => {
     cy.visit('http://blog.localhost:3009/docs')
     cy.getCookie('_csrf_token').then((cookie) => {

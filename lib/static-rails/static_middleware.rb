@@ -17,7 +17,7 @@ module StaticRails
       if (req.get? || req.head?) && (site = @matches_request_to_static_site.call(req))
         file_handler = file_handler_for(site)
         path = req.path_info.gsub(/^#{site.url_root_path}/, "").chomp("/")
-        if (match = file_handler.match?(path))
+        if (match = matching_file_for(file_handler, site, path))
           req.path_info = match
           return file_handler.serve(req)
         end
@@ -34,6 +34,14 @@ module StaticRails
       @file_handlers[site] ||= ActionDispatch::FileHandler.new(
         StaticRails.config.app.root.join(site.compile_dir).to_s
       )
+    end
+
+    def matching_file_for(file_handler, site, path)
+      if (match = file_handler.match?(path))
+        match
+      elsif site.compile_404_file_path.present?
+        file_handler.match?(site.compile_404_file_path)
+      end
     end
   end
 end

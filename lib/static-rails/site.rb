@@ -14,6 +14,7 @@ module StaticRails
     :server_path,
     :compile_command,
     :compile_dir,
+    :compile_404_file_path,
     keyword_init: true
   )
 

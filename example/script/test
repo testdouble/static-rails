@@ -9,4 +9,4 @@ echo "--> Precompiling all static site assets with rake assets:precompile"
 rake assets:precompile
 
 echo "--> Running tests in production, *not* starting servers and serving files instead of proxying"
-RAILS_ENV=production rake cypress:run
+RAILS_ENV=production CYPRESS_RAILS_CYPRESS_OPTS="--env RAILS_ENV=production" rake cypress:run

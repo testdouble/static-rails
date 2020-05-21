@@ -153,6 +153,10 @@ To tell the gem about your static sites, assign an array of hashes as `sites`
   path to which production assets are compiled, relative to the site's
   `source_dir`
 
+* **compile_404_file_path** (Optional) When `serve_compiled_assets` is true,
+  this file (relative to the `compile_dir`) will be served whenever the
+  request's path does not match a file on disk
+
 ## Configuring your static site generators
 
 Assuming you won't be mounting your static site to your app's root `/` path,

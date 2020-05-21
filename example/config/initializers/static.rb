@@ -40,7 +40,8 @@ StaticRails.config do |config|
       server_command: "hugo server -p 1314 --disableLiveReload",
       server_port: 1314,
       compile_command: "hugo",
-      compile_dir: "static/marketing/public"
+      compile_dir: "static/marketing/public",
+      compile_404_file_path: "404.html"
     }
   ]
 end
