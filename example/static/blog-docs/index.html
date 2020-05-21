@@ -10,8 +10,8 @@
       function getCookie(name) {
         return decodeURIComponent(document.cookie
           .split(';')
-          .find(entry => entry.split('=')[0] == name)
-          .match(/.*=(.*)$/)[1])
+          .find(entry => entry.trim().split('=')[0] === name)
+          .match(RegExp(`${name}=(.*)$`))[1])
       }
 
       fetch('/docs/api/houses', {
@@ -20,9 +20,15 @@
           'Content-Type': 'application/json',
           'x-csrf-token': getCookie('_csrf_token')
         },
+      }).then(response => {
+        if (!response.ok) throw new Error(`Response failed with code ${response.status}!`)
       }).then(response => response.json()).then(data =>
         document.querySelector('#api-result').textContent = `
           API liked our CSRF token and sent back ID: ${data.id}
+        `
+      ).catch(err =>
+        document.querySelector('#api-result').textContent = `
+          Uh oh! ${err.message}
         `
       );
 
