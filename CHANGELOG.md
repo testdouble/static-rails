@@ -1,3 +1,8 @@
+## 0.0.6
+
+* Fix an issue where `ActionDispatch::FileHandler` won't be loaded in the event
+  that static-rails is serving compiled assets but Rails is not
+
 ## 0.0.5
 
 * Add a site option `compile_404_file_path` to specify a file to be used as a
