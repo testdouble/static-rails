@@ -21,8 +21,10 @@ module StaticRails
       if StaticRails.config.set_csrf_token_cookie
         req = Rack::Request.new(env)
         res = Rack::Response.new(body, status, headers)
+        token = @gets_csrf_token.call(req)
+        puts "SETTING _csrf_token to '#{token}' for host  #{req.host}"
         res.set_cookie("_csrf_token", {
-          value: @gets_csrf_token.call(req),
+          value: token,
           path: "/"
         })
         res.finish

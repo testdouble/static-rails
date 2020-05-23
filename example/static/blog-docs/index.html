@@ -7,6 +7,7 @@
     <p>Hi</p>
     <div id="api-result"></div>
     <script>
+      console.log('COOKIE:', document.cookie)
       function getCookie(name) {
         return decodeURIComponent(document.cookie
           .split(';')
@@ -22,6 +23,7 @@
         },
       }).then(response => {
         if (!response.ok) throw new Error(`Response failed with code ${response.status}!`)
+        return response
       }).then(response => response.json()).then(data =>
         document.querySelector('#api-result').textContent = `
           API liked our CSRF token and sent back ID: ${data.id}
