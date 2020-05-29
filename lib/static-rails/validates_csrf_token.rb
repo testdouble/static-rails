@@ -18,5 +18,9 @@ module StaticRails
         ActionController::RequestForgeryProtection.instance_method(method).bind(self).call(*args, **kwargs, &blk)
       end
     end
+
+    def per_form_csrf_tokens
+      false
+    end
   end
 end

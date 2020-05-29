@@ -84,13 +84,14 @@ overall behavior of the gem itself, across all your static sites:
   `proxy_requests` is true, that the gem will wait for a response from a static
   site's server on any given request before timing out and raising an error
 
-* **config.set_csrf_token_cookie** (Default: `true`) when true, the gem's
+* **config.set_csrf_token_cookie** (Default: `false`) when true, the gem's
   middleware will set a cookie named `_csrf_token` with each request of your
   static site. You can use this to set the `'x-csrf-token'` header on any
   requests from your site back to routes hosted by the Rails app that are
   [protected from CSRF
   forgery](https://guides.rubyonrails.org/security.html#cross-site-request-forgery-csrf)
-  (if you're not using Rails' cookie store for sessions, turn this off)
+  (if you're not using Rails' cookie store for sessions or you're okay with API
+  calls bypassing Rails CSRF, leave this off)
 
 ### Configuring your static sites themselves
 
