@@ -1,7 +1,6 @@
 require_relative "proxy_middleware"
 require_relative "static_middleware"
 require_relative "determines_whether_to_handle_request"
-require_relative "gets_csrf_token"
 
 module StaticRails
   class SiteMiddleware
@@ -17,7 +16,7 @@ module StaticRails
     def call(env)
       return @app.call(env) unless @determines_whether_to_handle_request.call(env)
 
-      if require_csrf_before_processing_request? && !csrf_token_is_set?(env)
+      if require_csrf_before_processing_request?
         # You might be asking yourself what the hell is going on here. In short,
         # This middleware sits at the top of the stack, which is too early to
         # set a CSRF token in a cookie. Therefore, we've placed a subclass of
@@ -42,17 +41,11 @@ module StaticRails
         # (By the way, this was all Matthew Draper's bright idea. You can
         # compliment him here: https://github.com/matthewd )
         @app.call(env.merge("PATH_INFO" => env["PATH_INFO"] + PATH_INFO_OBFUSCATION))
-      else
-
-        status, headers, body = if StaticRails.config.proxy_requests
-          @proxy_middleware.call(env)
-        elsif StaticRails.config.serve_compiled_assets
-          @static_middleware.call(env)
-        end
-
-        UGGGH
-
-        return [status, headers, body]
+      elsif StaticRails.config.proxy_requests
+        @proxy_middleware.call(env)
+      elsif StaticRails.config.serve_compiled_assets
+        @static_middleware.call(env)
+      end
     end
 
     protected
@@ -60,10 +53,6 @@ module StaticRails
     # Override this in subclass since it'll call super(env) and deal itself
     def require_csrf_before_processing_request?
       StaticRails.config.set_csrf_token_cookie
-    end
-
-    def csrf_token_is_set?(env)
-      Rack::Request.new(env).cookies.has_key?("_csrf_token")
     end
   end
 end
