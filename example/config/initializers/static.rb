@@ -1,4 +1,6 @@
 StaticRails.config do |config|
+  config.set_csrf_token_cookie = true
+
   config.sites = [
     {
       name: "blog-docs",

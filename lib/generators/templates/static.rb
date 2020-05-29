@@ -12,7 +12,7 @@ StaticRails.config do |config|
   # When true, both the proxy & static asset middleware will set a cookie
   #   named "_csrf_token" to the Rails CSRF token, allowing any client-side
   #   API requests to take advantage of Rails' request forgery protection
-  # config.set_csrf_token_cookie = true
+  # config.set_csrf_token_cookie = false
 
   # The list of static sites you are hosting with static-rails.
   # Note that order matters! Request will be forwarded to the first site that

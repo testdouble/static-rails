@@ -18,3 +18,9 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+// Force the _csrf_token to persist across tests, which will exercise our
+// SitePlusCsrfMiddleware middleware's fixing of invalid tokens
+Cypress.Cookies.defaults({
+  whitelist: "_csrf_token"
+})

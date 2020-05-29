@@ -30,7 +30,7 @@ module StaticRails
       @proxy_requests = !Rails.env.production?
       @serve_compiled_assets = Rails.env.production?
       @ping_server_timeout = 5
-      @set_csrf_token_cookie = true
+      @set_csrf_token_cookie = false
     end
 
     attr_reader :sites
