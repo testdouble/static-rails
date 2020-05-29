@@ -1,3 +1,9 @@
+## 0.0.7
+
+* Ensure that CSRF tokens are valid, at the cost of some performance and
+  reliance on additional Rails internals. As a result CSRF cookie setting is now
+  disabled by default [#6](https://github.com/testdouble/static-rails/pull/6)
+
 ## 0.0.6
 
 * Fix an issue where `ActionDispatch::FileHandler` won't be loaded in the event

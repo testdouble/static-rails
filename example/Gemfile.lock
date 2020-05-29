@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    static-rails (0.0.6)
+    static-rails (0.0.7)
       rack-proxy (~> 0.6)
       railties (>= 5.0.0)
 
