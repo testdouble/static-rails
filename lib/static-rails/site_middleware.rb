@@ -40,7 +40,7 @@ module StaticRails
         #
         # (By the way, this was all Matthew Draper's bright idea. You can
         # compliment him here: https://github.com/matthewd )
-        @app.call(env.merge("PATH_INFO" => env["PATH_INFO"] + PATH_INFO_OBFUSCATION))
+        @app.call(env.merge("PATH_INFO" => PATH_INFO_OBFUSCATION + env["PATH_INFO"]))
       elsif StaticRails.config.proxy_requests
         @proxy_middleware.call(env)
       elsif StaticRails.config.serve_compiled_assets

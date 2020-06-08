@@ -13,7 +13,7 @@ module StaticRails
     end
 
     def call(env)
-      return @app.call(env) unless @determines_whether_to_handle_request.call(env)
+      return @app.call(env) unless env["PATH_INFO"]&.start_with?(PATH_INFO_OBFUSCATION) || @determines_whether_to_handle_request.call(env)
 
       env = env.merge(
         "PATH_INFO" => env["PATH_INFO"].gsub(/#{PATH_INFO_OBFUSCATION}/, "")
