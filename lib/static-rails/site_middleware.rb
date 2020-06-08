@@ -4,7 +4,7 @@ require_relative "determines_whether_to_handle_request"
 
 module StaticRails
   class SiteMiddleware
-    PATH_INFO_OBFUSCATION = "JujJVj31M3SpzTjIGBJ2-3iE0lKXOIOlbLuk9Lxwe-Ll2uLuwH5KD8dmt1MqyZ"
+    PATH_INFO_OBFUSCATION = "__static-rails__"
 
     def initialize(app)
       @app = app
