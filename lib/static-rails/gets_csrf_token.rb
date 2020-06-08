@@ -1,5 +1,9 @@
+require_relative "request_forgery_protection_fallback"
+
 module StaticRails
   class GetsCsrfToken
+    include RequestForgeryProtectionFallback
+
     def call(req)
       masked_authenticity_token(req.session)
     end

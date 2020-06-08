@@ -1,5 +1,9 @@
+require_relative "request_forgery_protection_fallback"
+
 module StaticRails
   class ValidatesCsrfToken
+    include RequestForgeryProtectionFallback
+
     def call(req)
       valid_authenticity_token?(req.session, req.cookies["_csrf_token"])
     end
