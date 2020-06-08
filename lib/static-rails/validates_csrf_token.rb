@@ -7,6 +7,9 @@ module StaticRails
     private
 
     [
+      :compare_with_global_token,
+      :global_csrf_token,
+      :csrf_token_hmac,
       :valid_authenticity_token?,
       :unmask_token,
       :compare_with_real_token,

@@ -6,8 +6,20 @@ module StaticRails
 
     private
 
+    def csrf_token_hmac(session, identifier)
+      ActionController::RequestForgeryProtection.instance_method(:csrf_token_hmac).bind(self).call(session, identifier)
+    end
+
+    def mask_token(raw_token)
+      ActionController::RequestForgeryProtection.instance_method(:mask_token).bind(self).call(raw_token)
+    end
+
     def masked_authenticity_token(session, form_options: {})
       ActionController::RequestForgeryProtection.instance_method(:masked_authenticity_token).bind(self).call(session, form_options)
+    end
+
+    def global_csrf_token(session)
+      ActionController::RequestForgeryProtection.instance_method(:global_csrf_token).bind(self).call(session)
     end
 
     def real_csrf_token(session)
