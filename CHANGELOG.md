@@ -1,3 +1,8 @@
+## 0.0.8
+
+* Add support for the [CSRF
+  changes](https://github.com/rails/rails/commit/358ff18975f26e820ea355ec113ffc5228e59af8) in Rails 6.0.3.1
+
 ## 0.0.7
 
 * Ensure that CSRF tokens are valid, at the cost of some performance and
