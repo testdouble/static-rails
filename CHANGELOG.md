@@ -1,3 +1,10 @@
+## 0.0.9
+
+* When using CSRF protection, the artificial path info will now be
+  "__static_rails__" instead of a random string, to make logs appear cleaner
+* Attempt to guard against future internal changes to Rails' request forgery
+  protection by adding `method_missing` that calls through
+
 ## 0.0.8
 
 * Add support for the [CSRF
