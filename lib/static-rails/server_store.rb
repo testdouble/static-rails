@@ -16,10 +16,6 @@ module StaticRails
       @servers[site] ||= Server.new(site)
     end
 
-    def ensure_servers_are_up
-      @servers.values.each(&:start)
-    end
-
     private
 
     def initialize

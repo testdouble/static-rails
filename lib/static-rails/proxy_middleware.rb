@@ -17,7 +17,6 @@ module StaticRails
 
       server_store = ServerStore.instance
       server_store.ensure_all_servers_are_started
-      server_store.ensure_servers_are_up
 
       req = Rack::Request.new(env)
       if (req.get? || req.head?) && (site = @matches_request_to_static_site.call(req))
