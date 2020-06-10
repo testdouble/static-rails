@@ -1,6 +1,6 @@
 require "rack-proxy"
-require "action_dispatch/middleware/static"
 
+require_relative "file_handler"
 require_relative "matches_request_to_static_site"
 
 module StaticRails
@@ -32,7 +32,7 @@ module StaticRails
     # The same file handler used by Rails when serving up files from /public
     #   See: actionpack/lib/action_dispatch/middleware/static.rb
     def file_handler_for(site)
-      @file_handlers[site] ||= ActionDispatch::FileHandler.new(
+      @file_handlers[site] ||= FileHandler.new(
         StaticRails.config.app.root.join(site.compile_dir).to_s,
         headers: {
           "cache-control" => "public; max-age=31536000"
