@@ -1,6 +1,7 @@
 module StaticRails
 end
 
+require_relative "static-rails/forked_process_check"
 require_relative "static-rails/error"
 require_relative "static-rails/version"
 require_relative "static-rails/configuration"
