@@ -1,14 +1,24 @@
+require_relative "makes_connection"
+
 module StaticRails
   class WaitsForConnection
+    def initialize
+      @makes_connection = MakesConnection.new
+    end
+
     def call(site)
       timeout = StaticRails.config.ping_server_timeout
       start = Time.new
       wait_message_logged = false
 
       loop do
-        Socket.tcp(site.server_host, site.server_port, connect_timeout: 5)
+        @makes_connection.call(
+          host: site.server_host,
+          port: site.server_port,
+          timeout: 5
+        )
         break
-      rescue Errno::ECONNREFUSED, Errno::EADDRNOTAVAIL
+      rescue ConnectionFailure
         elapsed = Time.new - start
         if elapsed > timeout
           raise Error.new("Static site server \"#{site.name}\" failed to start within #{timeout} seconds. You can change the timeout with `StaticRails.config.ping_server_timeout = 42`")

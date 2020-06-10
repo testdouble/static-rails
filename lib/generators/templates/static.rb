@@ -1,18 +1,32 @@
 StaticRails.config do |config|
-  # Control whether static-rails adds a middleware to proxy requests to your static site servers
+  # Control whether static-rails adds a middleware to proxy requests to your
+  # static site servers
+  #
   # config.proxy_requests = !Rails.env.production?
 
-  # Control whether static-rails adds a middleware to serve your sites' compiled static assets with Static::Rack (has no effect if proxy_requests is enabled)
+  # Control whether static-rails adds a middleware to serve your sites'
+  # compiled static assets with Static::Rack (has no effect if proxy_requests
+  # is enabled)
+  #
   # config.serve_compiled_assets = Rails.env.production?
 
   # Timeout in seconds to wait when proxying to  a static server
   #   (Applies when a site has both start_server and ping_server set to true)
+  #
   # config.ping_server_timeout = 5
 
   # When true, both the proxy & static asset middleware will set a cookie
   #   named "_csrf_token" to the Rails CSRF token, allowing any client-side
   #   API requests to take advantage of Rails' request forgery protection
+  #
   # config.set_csrf_token_cookie = false
+
+  # When true, static-rails won't attempt to start a site server if another
+  # process is already bound to and is accepting TCP connections at a site's
+  # port. This is in order to play nicely with Rails parallel testing, which
+  # by default will fork multiple Rails processes for each test run
+  #
+  # config.dont_start_server_if_port_already_bound = Rails.env.test?
 
   # The list of static sites you are hosting with static-rails.
   # Note that order matters! Request will be forwarded to the first site that
