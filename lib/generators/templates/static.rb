@@ -34,14 +34,14 @@ StaticRails.config do |config|
     #   url_root_path: "/",
     #
     #   # Don't serve/redirect routes whose paths start with these strings
-    #   url_skip_paths_starting_with: ["/api"]
+    #   url_skip_paths_starting_with: ["/api"],
     #
     #   # Whether to run the local development/test server or not
     #   start_server: !Rails.env.production?,
     #
     #   # If start_server is true, wait to proxy requests to the server until it
     #   #   can connect to server_host over TCP on server_port
-    #   ping_server: true
+    #   ping_server: true,
     #
     #   # Any environment variables you need to pass to the server & compile
     #   #   commands as a hash (e.g. `env: {"BUNDLE_PATH" => "vendor/bundle"}`)
@@ -65,7 +65,7 @@ StaticRails.config do |config|
     #   compile_command: "hugo",
     #
     #   # The destination of production-compiled assets, relative to Rails root
-    #   compile_dir: "static/blog/dist"
+    #   compile_dir: "static/blog/dist",
     #
     #   # A 404 page to be sent when serving compiled assets and no file matches
     #   compile_404_file_path: "404.html"
