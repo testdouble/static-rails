@@ -94,7 +94,7 @@ describe('rails-static stuff seems to work', () => {
     })
   })
 
-  it.only('[Production only] gzips most file types', () => {
+  it('[Production only] gzips most file types', () => {
     if (Cypress.env('RAILS_ENV') !== 'production') return
 
     cy.request({
@@ -122,6 +122,45 @@ describe('rails-static stuff seems to work', () => {
         'content-encoding': 'gzip',
         'content-length': '58',
         'content-type': 'application/json'
+      })
+    })
+
+    cy.request({
+      url: 'http://localhost:3009/docs/assets/a_css.css',
+      headers: {
+        'accept-encoding': 'gzip'
+      }
+    }).should(response => {
+      expect(response.headers).to.include({
+        'vary': 'Accept-Encoding',
+        'content-encoding': 'gzip',
+        'content-type': 'text/css'
+      })
+    })
+
+    cy.request({
+      url: 'http://localhost:3009/docs/assets/a_html.html',
+      headers: {
+        'accept-encoding': 'gzip'
+      }
+    }).should(response => {
+      expect(response.headers).to.include({
+        'vary': 'Accept-Encoding',
+        'content-encoding': 'gzip',
+        'content-type': 'text/html'
+      })
+    })
+
+    cy.request({
+      url: 'http://localhost:3009/docs/assets/an_image.png',
+      headers: {
+        'accept-encoding': 'gzip'
+      }
+    }).should(response => {
+      expect(response.headers['content-encoding']).to.be.undefined
+      expect(response.headers['vary']).to.be.undefined
+      expect(response.headers).to.include({
+        'content-type': 'image/png'
       })
     })
   })

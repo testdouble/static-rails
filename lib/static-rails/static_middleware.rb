@@ -35,7 +35,8 @@ module StaticRails
         StaticRails.config.app.root.join(site.compile_dir).to_s,
         headers: {
           "cache-control" => "public; max-age=31536000"
-        }
+        },
+        compressible_content_types: /^text\/|[\/+](javascript|json|text|xml|css|yaml)$/i
       )
     end
 
