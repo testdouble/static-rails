@@ -1,3 +1,10 @@
+## 0.0.11
+
+* Inline the `ActionDispatch::FileHandler` from Rails master so that we can
+  target a single stable version of its API and control what MIME types it
+  considers to be compressible (bonus is that it effectively backports brotli
+  compression to pre-6.1 rails apps)
+
 ## 0.0.10
 
 * Change default `cache-control` header for static assets being served from disk
