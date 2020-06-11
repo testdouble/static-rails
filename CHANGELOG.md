@@ -1,3 +1,8 @@
+## 0.0.10
+
+* Change default `cache-control` header for static assets being served from disk
+  from `no-cache` to `"public; max-age=31536000"`
+
 ## 0.0.9
 
 * When using CSRF protection, the artificial path info will now be
