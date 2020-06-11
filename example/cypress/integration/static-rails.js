@@ -93,4 +93,37 @@ describe('rails-static stuff seems to work', () => {
       })
     })
   })
+
+  it.only('[Production only] gzips most file types', () => {
+    if (Cypress.env('RAILS_ENV') !== 'production') return
+
+    cy.request({
+      url: 'http://localhost:3009/docs/assets/a_javascript.js',
+      headers: {
+        'accept-encoding': 'gzip'
+      }
+    }).should(response => {
+      expect(response.headers).to.include({
+        'vary': 'Accept-Encoding',
+        'content-encoding': 'gzip',
+        'content-length': '58',
+        'content-type': 'application/javascript'
+      })
+    })
+
+    cy.request({
+      url: 'http://localhost:3009/docs/assets/a_json.json',
+      headers: {
+        'accept-encoding': 'gzip'
+      }
+    }).should(response => {
+      expect(response.headers).to.include({
+        'vary': 'Accept-Encoding',
+        'content-encoding': 'gzip',
+        'content-length': '58',
+        'content-type': 'application/json'
+      })
+    })
+  })
+
 })
