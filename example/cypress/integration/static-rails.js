@@ -59,7 +59,7 @@ describe('rails-static stuff seems to work', () => {
     })
   })
 
-  it.only('[Production only] assign better cache-control', () => {
+  it('[Production only] assign better cache-control', () => {
     if (Cypress.env('RAILS_ENV') !== 'production') return
 
     cy.request('http://localhost:3009/docs/assets/an_image.png').should((response) => {
