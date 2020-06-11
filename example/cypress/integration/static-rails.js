@@ -40,15 +40,6 @@ describe('rails-static stuff seems to work', () => {
     cy.get('article').should('contain.text', 'I am a post')
   })
 
-  it('[Production only] 404 page for /marketing is rendered correctly', () => {
-    if (Cypress.env('RAILS_ENV') !== 'production') return
-
-    cy.visit('http://localhost:3009/marketing/ajsdoasjdaodjoadj')
-
-    cy.get('#message')
-      .should('contain.text', 'I am a 404 page for /marketing')
-  })
-
   it('can access an API carved out within where the 11ty site is mounted', () => {
     cy.visit('http://blog.localhost:3009/docs')
     cy.getCookie('_csrf_token').then((cookie) => {
@@ -64,6 +55,41 @@ describe('rails-static stuff seems to work', () => {
           expect(response.body).to.have.property('id', 22)
           expect(response.body).to.have.property('fake', true)
         })
+      })
+    })
+  })
+
+  it.only('[Production only] assign better cache-control', () => {
+    if (Cypress.env('RAILS_ENV') !== 'production') return
+
+    cy.request('http://localhost:3009/docs/assets/an_image.png').should((response) => {
+      expect(response.headers).to.include({
+        'cache-control': 'public; max-age=31536000',
+        'content-length': '4320',
+        'content-type': 'image/png'
+      })
+
+      const lastModified = response.headers['last-modified']
+      expect(lastModified).not.to.be.empty
+
+      const preModified = new Date(new Date(lastModified).getTime() - 10000).toUTCString()
+      cy.request({
+        url: 'http://localhost:3009/docs/assets/an_image.png',
+        headers: {
+          'if-modified-since': preModified
+        }
+      }).should((response) => {
+        expect(response.status).to.eq(200)
+      })
+
+      const postModified = new Date(new Date(lastModified).getTime() + 10000).toUTCString()
+      cy.request({
+        url: 'http://localhost:3009/docs/assets/an_image.png',
+        headers: {
+          'if-modified-since': postModified
+        }
+      }).should((response) => {
+        expect(response.status).to.eq(304)
       })
     })
   })

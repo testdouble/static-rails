@@ -33,7 +33,10 @@ module StaticRails
     #   See: actionpack/lib/action_dispatch/middleware/static.rb
     def file_handler_for(site)
       @file_handlers[site] ||= ActionDispatch::FileHandler.new(
-        StaticRails.config.app.root.join(site.compile_dir).to_s
+        StaticRails.config.app.root.join(site.compile_dir).to_s,
+        headers: {
+          "cache-control" => "public; max-age=31536000"
+        }
       )
     end
 
