@@ -18,9 +18,8 @@ module StaticRails
       if (req.get? || req.head?) && (site = @matches_request_to_static_site.call(req))
         file_handler = file_handler_for(site)
         path = req.path_info.gsub(/^#{site.url_root_path}/, "").chomp("/")
-        if (match = matching_file_for(file_handler, site, path))
-          req.path_info = match
-          return file_handler.serve(req)
+        if (found = find_file_for(file_handler, site, path, req.accept_encoding))
+          return file_handler.serve(req, *found)
         end
       end
 
@@ -40,11 +39,11 @@ module StaticRails
       )
     end
 
-    def matching_file_for(file_handler, site, path)
-      if (match = file_handler.match?(path))
-        match
+    def find_file_for(file_handler, site, path, accept_encoding)
+      if (found = file_handler.find_file(path, accept_encoding: accept_encoding))
+        found
       elsif site.compile_404_file_path.present?
-        file_handler.match?(site.compile_404_file_path)
+        file_handler.find_file(site.compile_404_file_path, accept_encoding: accept_encoding)
       end
     end
   end
