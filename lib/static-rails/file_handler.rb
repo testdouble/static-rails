@@ -53,8 +53,6 @@ module StaticRails
       end
     end
 
-    private
-
     def serve(request, filepath, content_headers)
       original, request.path_info =
           request.path_info, ::Rack::Utils.escape_path(filepath).b
@@ -86,6 +84,8 @@ module StaticRails
         end
       end
     end
+
+    private
 
     def try_files(filepath, content_type, accept_encoding:)
       headers = {"Content-Type" => content_type}
