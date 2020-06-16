@@ -36,7 +36,7 @@ module StaticRails
     attr_reader :sites
     def sites=(sites)
       @sites = Array.wrap(sites).map { |site|
-        Site.new(site)
+        Site.new(**site)
       }
     end
   end
