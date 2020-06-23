@@ -4,7 +4,7 @@ require_relative "determines_whether_to_handle_request"
 
 module StaticRails
   class SiteMiddleware
-    PATH_INFO_OBFUSCATION = "/__static-rails__/"
+    PATH_INFO_OBFUSCATION = "__static-rails__"
 
     def initialize(app)
       @app = app
@@ -40,7 +40,7 @@ module StaticRails
         #
         # (By the way, this was all Matthew Draper's bright idea. You can
         # compliment him here: https://github.com/matthewd )
-        @app.call(env.merge("PATH_INFO" => PATH_INFO_OBFUSCATION + env["PATH_INFO"]))
+        @app.call(env.merge("PATH_INFO" => "/" + PATH_INFO_OBFUSCATION + env["PATH_INFO"]))
       elsif StaticRails.config.proxy_requests
         @proxy_middleware.call(env)
       elsif StaticRails.config.serve_compiled_assets
