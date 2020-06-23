@@ -1,3 +1,10 @@
+## 0.0.12
+
+* Fix an issue in which enabling force_ssl would result in redirects to the
+  obfuscated `/_static_rails/` path. Resolved this by placing the static-rails
+  middleware after `ActionDispatch::SSL`. Note that this will break if you
+  remove `Rack::SendFile` from your app's middleware stack
+
 ## 0.0.11
 
 * Inline the `ActionDispatch::FileHandler` from Rails master so that we can
