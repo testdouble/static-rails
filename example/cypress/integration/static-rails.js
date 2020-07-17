@@ -165,4 +165,21 @@ describe('rails-static stuff seems to work', () => {
     })
   })
 
+  it('[Production only] will serve up 404 pages with 404 status code', () => {
+    if (Cypress.env('RAILS_ENV') !== 'production') return
+    cy.visit('http://localhost:3009/marketing/fooberry', {
+      failOnStatusCode: false
+    })
+
+    cy.contains('I am a 404 page for /marketing')
+
+    cy.request({
+      url: 'http://localhost:3009/marketing/lmao',
+      failOnStatusCode: false
+    }).should(res => {
+      expect(res.status).to.eq(404)
+    })
+  })
+
+
 })

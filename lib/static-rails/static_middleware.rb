@@ -18,8 +18,8 @@ module StaticRails
       if (req.get? || req.head?) && (site = @matches_request_to_static_site.call(req))
         file_handler = file_handler_for(site)
         path = req.path_info.gsub(/^#{site.url_root_path}/, "").chomp("/")
-        if (found = find_file_for(file_handler, site, path, req.accept_encoding))
-          return file_handler.serve(req, *found)
+        if (result = serve_file_for(file_handler, site, path, req))
+          return result
         end
       end
 
@@ -40,11 +40,19 @@ module StaticRails
       )
     end
 
-    def find_file_for(file_handler, site, path, accept_encoding)
-      if (found = file_handler.find_file(path, accept_encoding: accept_encoding))
-        found
+    def serve_file_for(file_handler, site, path, req)
+      if (found = file_handler.find_file(path, accept_encoding: req.accept_encoding))
+        serve_file(file_handler, found, req)
       elsif site.compile_404_file_path.present?
-        file_handler.find_file(site.compile_404_file_path, accept_encoding: accept_encoding)
+        found = file_handler.find_file(site.compile_404_file_path, accept_encoding: req.accept_encoding)
+        serve_file(file_handler, found, req, 404)
+      end
+    end
+
+    def serve_file(file_handler, file, req, status_override = nil)
+      return unless file
+      file_handler.serve(req, *file).tap do |result|
+        result[0] = status_override unless status_override.nil?
       end
     end
   end
