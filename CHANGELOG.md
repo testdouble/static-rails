@@ -1,3 +1,8 @@
+## 0.0.13
+
+* 404 pages served in production via a site's `compile_404_file_path` setting
+  will now also send the HTTP status code of 404 instead of 200
+
 ## 0.0.12
 
 * Fix an issue in which enabling force_ssl would result in redirects to the
