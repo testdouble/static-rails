@@ -13,30 +13,16 @@ jobs:
       # One of the apps needs hugo
       - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends hugo
 
+      # Make sure we use the right Bundler
+      - run: gem install bundler --version `tail -1 Gemfile.lock`
+
       # Bundle install dependencies
       - type: cache-restore
         key: v1-main-{{ checksum "Gemfile.lock" }}
 
-      - run: gem install bundler --version `tail -1 Gemfile.lock`
-      - run: bundle install --path vendor/bundle
-
-      - type: cache-save
-        key: v1-main-{{ checksum "Gemfile.lock" }}
-        paths:
-          - vendor/bundle
-
       # Bundle install dependencies for example app
       - type: cache-restore
         key: v1-example-{{ checksum "example/Gemfile.lock" }}
-
-      - run: |
-          cd example
-          bundle install --path vendor/bundle
-
-      - type: cache-save
-        key: v1-example-{{ checksum "example/Gemfile.lock" }}
-        paths:
-          - example/vendor/bundle
 
       # Yarn dependencies
       - restore_cache:
@@ -45,28 +31,9 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v2-yarn-
 
-      - run: |
-          cd example
-          yarn install
-
-      - save_cache:
-          paths:
-            - example/node_modules
-            - ~/.cache
-          key: v2-yarn-{{ checksum "example/yarn.lock" }}
-
       # Bundle install dependencies for jekyll app
       - type: cache-restore
         key: v1-jekyll-{{ checksum "example/static/docs/Gemfile.lock" }}
-
-      - run: |
-          cd example/static/docs
-          bundle install --path vendor/bundle
-
-      - type: cache-save
-        key: v1-jekyll-{{ checksum "example/static/docs/Gemfile.lock" }}
-        paths:
-          - example/static/docs/vendor/bundle
 
       # Npm install for Eleventy app
       - restore_cache:
@@ -75,16 +42,32 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-eleventy-
 
-      - run: |
-          cd example/static/blog-docs
-          npm install
+      - run: ./script/setup
+
+      - type: cache-save
+        key: v1-main-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+
+      - type: cache-save
+        key: v1-example-{{ checksum "example/Gemfile.lock" }}
+        paths:
+          - example/vendor/bundle
+
+      - save_cache:
+          paths:
+            - example/node_modules
+            - ~/.cache
+          key: v2-yarn-{{ checksum "example/yarn.lock" }}
+
+      - type: cache-save
+        key: v1-jekyll-{{ checksum "example/static/docs/Gemfile.lock" }}
+        paths:
+          - example/static/docs/vendor/bundle
 
       - save_cache:
           paths:
             - example/static/blog-docs/node_modules
           key: v1-eleventy-{{ checksum "example/static/blog-docs/package-lock.json" }}
 
-      - run: bundle exec rake standard:fix
-      - run: |
-          cd example
-          ./script/test
+      - run: ./script/test

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "--> Installing static-rails' Ruby deps"
+bundle install --path vendor/bundle
+
+echo "--> Installing example app's Ruby deps"
+cd example
+bundle install --path vendor/bundle
+cd ..
+
+echo "--> Installing example app's JS deps"
+cd example
+yarn install
+cd ..
+
+echo "--> Installing example app's Jekyll site's Ruby deps"
+cd example/static/docs
+bundle install --path vendor/bundle
+cd ../../..
+
+echo "--> Installing example app's Eleventy site's JS deps"
+cd example/static/blog-docs
+npm install
+cd ../../..
+
+
