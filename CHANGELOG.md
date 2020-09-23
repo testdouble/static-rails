@@ -1,3 +1,8 @@
+## 0.0.14
+
+* HTML & XML won't be cached by default in production
+  [#20](https://github.com/testdouble/static-rails/pull/20)
+
 ## 0.0.13
 
 * 404 pages served in production via a site's `compile_404_file_path` setting
