@@ -54,8 +54,7 @@ module StaticRails
     end
 
     def serve(request, filepath, content_headers)
-      original, request.path_info =
-          request.path_info, ::Rack::Utils.escape_path(filepath).b
+      original, request.path_info = request.path_info, ::Rack::Utils.escape_path(filepath).b
 
       @file_server.call(request.env).tap do |status, headers, body|
         # Omit Content-Encoding/Type/etc headers for 304 Not Modified
