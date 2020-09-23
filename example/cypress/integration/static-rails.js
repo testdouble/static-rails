@@ -59,7 +59,7 @@ describe('rails-static stuff seems to work', () => {
     })
   })
 
-  it('[Production only] assign better cache-control', () => {
+  it('[Production only] assign better cache-control for images', () => {
     if (Cypress.env('RAILS_ENV') !== 'production') return
 
     cy.request('http://localhost:3009/docs/assets/an_image.png').should((response) => {
@@ -90,6 +90,18 @@ describe('rails-static stuff seems to work', () => {
         }
       }).should((response) => {
         expect(response.status).to.eq(304)
+      })
+    })
+  })
+
+  it('[Production only] cache-control no cache for HTML', () => {
+    if (Cypress.env('RAILS_ENV') !== 'production') return
+
+    cy.request('http://blog.localhost:3009/docs/index.html').should((response) => {
+      expect(response.headers).to.include({
+        'cache-control': 'no-cache, no-store',
+        // 'content-length': '4320',
+        'content-type': 'text/html'
       })
     })
   })
