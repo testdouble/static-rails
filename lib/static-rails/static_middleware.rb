@@ -53,6 +53,17 @@ module StaticRails
       return unless file
       file_handler.serve(req, *file).tap do |result|
         result[0] = status_override unless status_override.nil?
+        override_cache_control_if_we_probably_shouldnt_cache!(file, result[1])
+      end
+    end
+
+    PROBABLY_SHOULDNT_CACHE_MIME_TYPES = [
+      "text/html", "application/xml", "application/rss+xml"
+    ]
+    def override_cache_control_if_we_probably_shouldnt_cache!(file, headers = {})
+      mime_type = file[1]["Content-Type"]
+      if PROBABLY_SHOULDNT_CACHE_MIME_TYPES.include?(mime_type)
+        headers["cache-control"] = "no-cache, no-store"
       end
     end
   end
