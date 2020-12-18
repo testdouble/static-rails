@@ -1,4 +1,5 @@
 require_relative "rack_server_check"
+require_relative "should_skip_starting_servers"
 require_relative "server_store"
 require_relative "site_middleware"
 require_relative "site_plus_csrf_middleware"
@@ -18,7 +19,7 @@ module StaticRails
       static_rails_config = StaticRails.config
       static_rails_config.app = app
 
-      if RackServerCheck.running?
+      if RackServerCheck.running? && !ShouldSkipStartingServers.new.call
         ServerStore.instance.ensure_all_servers_are_started
       end
     end

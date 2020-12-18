@@ -1,3 +1,4 @@
+require_relative "should_skip_starting_servers"
 require_relative "server"
 
 module StaticRails
@@ -7,6 +8,8 @@ module StaticRails
     end
 
     def ensure_all_servers_are_started
+      return if @should_skip_starting_servers.call
+
       StaticRails.config.sites.select(&:start_server).each do |site|
         server_for(site).start
       end
@@ -20,6 +23,7 @@ module StaticRails
 
     def initialize
       @servers = {}
+      @should_skip_starting_servers = ShouldSkipStartingServers.new
     end
   end
 end

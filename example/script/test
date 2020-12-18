@@ -2,7 +2,13 @@
 
 set -e
 
-echo "--> Running tests in development, starting all static servers and proxying requests"
+echo "--> Setting up test database"
+rake db:test:prepare
+
+echo "--> Running system tests in development"
+rake test:system
+
+echo "--> Running Cypress tests in development, starting all static servers and proxying requests"
 rake cypress:run
 
 echo "--> Precompiling all static site assets with rake assets:precompile"

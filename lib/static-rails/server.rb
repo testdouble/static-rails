@@ -1,3 +1,4 @@
+require_relative "makes_connection"
 require_relative "waits_for_connection"
 
 module StaticRails
@@ -5,15 +6,29 @@ module StaticRails
     def initialize(site)
       @site = site
       @ready = false
+      @warned_about_skipping_server_start = false
+      @makes_connection = MakesConnection.new
       @waits_for_connection = WaitsForConnection.new
     end
 
     def start
       return if started?
+      return if skip_start?
+
       @pid = spawn_process
       set_at_exit_hook
       nil
     end
+
+    def wait_until_ready
+      return if @ready
+      return if skip_start?
+
+      @waits_for_connection.call(@site)
+      @ready = true
+    end
+
+    private
 
     def started?
       return false unless @pid.present?
@@ -27,13 +42,21 @@ module StaticRails
       end
     end
 
-    def wait_until_ready
-      return if @ready
-      @waits_for_connection.call(@site)
-      @ready = true
-    end
+    def skip_start?
+      return unless StaticRails.config.dont_start_server_if_port_already_bound
 
-    private
+      @makes_connection.call(
+        host: @site.server_host,
+        port: @site.server_port,
+        timeout: 0.2,
+        raise_on_failure: false
+      ).tap do |connection_made|
+        if connection_made && !@warned_about_skipping_server_start
+          Rails.logger.info "=> SKIPPING starting #{@site.name} server, because a process is already accepting requests at #{@site.server_host}:#{@site.server_port}"
+          @warned_about_skipping_server_start = true
+        end
+      end
+    end
 
     def spawn_process
       options = {

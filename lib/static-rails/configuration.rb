@@ -25,12 +25,16 @@ module StaticRails
     # When true, a cookie named "_csrf_token" will be set by static-rails middleware
     attr_accessor :set_csrf_token_cookie
 
+    # When true, skip starting servers when their port is already accepting connections
+    attr_accessor :dont_start_server_if_port_already_bound
+
     def initialize
       @sites = []
       @proxy_requests = !Rails.env.production?
       @serve_compiled_assets = Rails.env.production?
       @ping_server_timeout = 5
       @set_csrf_token_cookie = false
+      @dont_start_server_if_port_already_bound = Rails.env.test?
     end
 
     attr_reader :sites
