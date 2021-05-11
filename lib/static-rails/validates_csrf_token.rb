@@ -29,5 +29,9 @@ module StaticRails
     def per_form_csrf_tokens
       false
     end
+
+    def urlsafe_csrf_tokens
+      Rails.application.config.action_controller.urlsafe_csrf_tokens
+    end
   end
 end
