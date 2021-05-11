@@ -2,10 +2,11 @@
 
 set -e
 
-echo "--> Running standard:fix"
-bundle exec rake standard:fix
-
 echo "--> Running example app's tests"
 cd example
 ./script/test
 cd ..
+
+echo "--> Running standard:fix"
+bundle exec rake standard:fix
+
