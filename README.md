@@ -63,7 +63,7 @@ app](/example) right in this repo!
 
 **(Want to dive right in? The generated initializer [enumerates every
 option](/lib/generators/templates/static.rb) and the [example app's
-config](https://github.com/testdouble/static-rails/blob/master/example/config/initializers/static.rb)
+config](https://github.com/testdouble/static-rails/blob/main/example/config/initializers/static.rb)
 sets up 4 sites.)**
 
 ### Top-level configuration
@@ -163,7 +163,7 @@ To tell the gem about your static sites, assign an array of hashes as `sites`
 Assuming you won't be mounting your static site to your app's root `/` path,
 you'll probably need to configure its base URL path somehow. Here are
 some tips (and if your tool of choice isn't listed, we'd love a [pull
-request](https://github.com/testdouble/static-rails/edit/master/README.md)!):
+request](https://github.com/testdouble/static-rails/edit/main/README.md)!):
 
 ### Using Jekyll
 
