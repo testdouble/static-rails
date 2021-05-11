@@ -1,3 +1,8 @@
+## 0.1.0
+
+* Add support for Rails 6.1 when CSRF is enabled
+* Increase required Ruby to 2.5
+
 ## 0.0.14
 
 * HTML & XML won't be cached by default in production

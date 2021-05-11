@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.summary = "Build & serve static sites (e.g. Jekyll, Hugo) from your Rails app"
   spec.homepage = "https://github.com/testdouble/static-rails"
   spec.license = "MIT"
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
+  spec.required_ruby_version = Gem::Requirement.new(">= 2.5.0")
 
   spec.metadata["homepage_uri"] = spec.homepage
 
