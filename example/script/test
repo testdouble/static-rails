@@ -3,10 +3,10 @@
 set -e
 
 echo "--> Running tests in development, starting all static servers and proxying requests"
-rake cypress:run
+bin/rake cypress:run
 
 echo "--> Precompiling all static site assets with rake assets:precompile"
-rake assets:precompile
+bin/rake assets:precompile
 
 echo "--> Running tests in production, *not* starting servers and serving files instead of proxying"
-RAILS_ENV=production CYPRESS_RAILS_CYPRESS_OPTS="--env RAILS_ENV=production" rake cypress:run
+RAILS_ENV=production CYPRESS_RAILS_CYPRESS_OPTS="--env RAILS_ENV=production" bin/rake cypress:run
