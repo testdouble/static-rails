@@ -1,3 +1,7 @@
+## 0.2.0
+
+* Deprecate static-rails
+
 ## 0.1.0
 
 * Add support for Rails 6.1 when CSRF is enabled
