@@ -6,7 +6,12 @@ Gem::Specification.new do |spec|
   spec.authors = ["Justin Searls"]
   spec.email = ["searls@gmail.com"]
 
-  spec.summary = "Build & serve static sites (e.g. Jekyll, Hugo) from your Rails app"
+  spec.summary = "DEPRECATED: Build & serve static sites (e.g. Jekyll, Hugo) from your Rails app"
+  spec.description = <<~DESCRIPTION
+    DEPRECATED: static-rails is deprecated and unmaintained. We have no plans to hand off the package or resurrect it, but you are of course welcome to fork it.
+
+    Build & serve static sites (e.g. Jekyll, Hugo) from your Rails app.
+  DESCRIPTION
   spec.homepage = "https://github.com/testdouble/static-rails"
   spec.license = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.5.0")

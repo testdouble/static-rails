@@ -1,3 +1,7 @@
+## 0.2.1
+
+* Add deprecation notice to gemspec summary and description
+
 ## 0.2.0
 
 * Deprecate static-rails
