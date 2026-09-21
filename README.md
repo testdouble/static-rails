@@ -2,6 +2,13 @@
 
 [![CircleCI](https://circleci.com/gh/testdouble/static-rails.svg?style=svg)](https://circleci.com/gh/testdouble/static-rails)
 
+## ⛔ DEPRECATED ⛔
+
+static-rails is deprecated and unmaintained.
+
+We have no plans to hand off the package or resurrect it, but you are of course
+welcome to fork it.
+
 ## Build and serve your static sites from your Rails app
 
 **tl;dr in development, static-rails runs your static site generators &
